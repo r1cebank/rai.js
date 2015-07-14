@@ -1,0 +1,52 @@
+# --------------------------------------------------------------------------- #
+# Default Target. This is base config for all other targets.                  #
+# --------------------------------------------------------------------------- #
+default:
+
+  # File paths involved in the build process
+  paths:
+    dest:  dist
+    bower: bower_components
+
+  # Bower files to inject into the client HTML page, in order
+  bower:
+    scripts:
+
+    stylesheets:
+
+    fonts:
+
+    assets:
+
+
+# --------------------------------------------------------------------------- #
+# Development build, optimized for easier debugging.                          #
+# --------------------------------------------------------------------------- #
+development:
+
+  # Enable source maps for easier debugging
+  sourcemaps: yes
+
+  # Development-specific scripts to inject
+  scripts:
+
+
+  # Development-specific stylesheets
+  stylesheets:
+
+
+# --------------------------------------------------------------------------- #
+# Production build, optimized for fewer and smaller files.                    #
+# --------------------------------------------------------------------------- #
+production:
+
+  # Enable file concatenation and minification
+  concat: yes
+  minify: yes
+
+  # Production-specific scripts to inject
+  scripts:
+
+
+  # Production-specific stylesheets to inject
+  stylesheets:
