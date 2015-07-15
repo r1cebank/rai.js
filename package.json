@@ -4,7 +4,9 @@
   "description": "Rai API Hosting",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "start": "gulp && node dist/app.js",
+    "test": "mocha",
+    "prestart": "gulp clean"
   },
   "repository": {
     "type": "git",
