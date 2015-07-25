@@ -25,7 +25,9 @@ db.all "select * from routes", (err, rows) ->
       if row.request_type is "get"
         winston.info "setting new get route #{row.path}"
         app.get row.path, (req, res) ->
+          # middleware function builder start here
           res.send "#{row.path} is working!"
+          # middleware function ends here
       # register routes
     else
       winston.error "path #{row.path} is not valid :("

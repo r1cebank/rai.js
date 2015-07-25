@@ -36,6 +36,7 @@
   "dependencies": {
     "express": "^4.13.1",
     "q": "^1.4.1",
+    "sandbox": "^0.8.6",
     "sqlite3": "^3.0.9",
     "winston": "^1.0.1"
   }
