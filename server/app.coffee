@@ -16,6 +16,6 @@ require('./dbloader/loader.js')(app, config, ->
   server = app.listen PORT, ->
     host = server.address().address
     port = server.address().port
-
     winston.info "server is up at http://#{host}:#{port}"
+    require('./fixtures/api_table.js')(app._router.stack, 'express')
   )

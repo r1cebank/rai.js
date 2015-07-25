@@ -1,38 +1,25 @@
 (function() {
-  var fileRegex, fs, loader, path, sqlite, winston;
+  var fs, q, routeloader, winston;
 
   fs = require('fs');
-
-  path = require('path');
-
-  sqlite = require('sqlite3').verbose();
 
   winston = require('winston');
 
   winston.cli();
 
-  loader = require('./dbloader.js')();
+  q = require('q');
 
-  fileRegex = /^.*\.(sqlite|sqlite2|sqlite3)$/;
+  routeloader = require('./routeloader.js')();
 
   module.exports = function(app, config, done) {
     var filenames;
     winston.info("scanning clientdb directory...");
     filenames = fs.readdirSync(config.clientdbPath);
-    filenames.map(function(filename) {
-      var db, promise;
-      if (fileRegex.test(filename)) {
-        winston.info("loading " + filename);
-        db = new sqlite.Database(path.join(config.clientdbPath, filename));
-        promise = loader.getRoutes(db);
-        promise.then(function(rows) {
-          return console.log(rows);
-        }).done();
-        return console.log(promise);
-      }
-    });
-    winston.info("cleaning up...");
-    return done();
+    return q.allSettled(filenames.map(function(filename) {
+      return routeloader.loadRouteForFile(app, config, filename);
+    })).then(function() {
+      return done();
+    }).done();
   };
 
 }).call(this);

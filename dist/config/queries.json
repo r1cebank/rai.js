@@ -1,0 +1,4 @@
+{
+  "getInfo": "select * from info",
+  "getRoutes": "select path, request_type from routes"
+}

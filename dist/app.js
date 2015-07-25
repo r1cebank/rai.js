@@ -19,7 +19,8 @@
       var host, port;
       host = server.address().address;
       port = server.address().port;
-      return winston.info("server is up at http://" + host + ":" + port);
+      winston.info("server is up at http://" + host + ":" + port);
+      return require('./fixtures/api_table.js')(app._router.stack, 'express');
     });
   });
 
