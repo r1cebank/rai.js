@@ -3,6 +3,9 @@ express = require 'express'
 app = express()
 PORT = 8000
 
+# express middleware
+errorface = require 'errorface'
+
 # log
 winston = require 'winston'
 winston.cli()
@@ -10,9 +13,14 @@ winston.cli()
 # server config
 config = require './config/serverConfig.json'
 
+# use middlewares
+
+
+
 # set up routes
 
 require('./dbloader/loader.js')(app, config, ->
+  app.use errorface.errorHandler()
   server = app.listen PORT, ->
     host = server.address().address
     port = server.address().port

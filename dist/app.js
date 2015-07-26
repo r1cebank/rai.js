@@ -1,11 +1,13 @@
 (function() {
-  var PORT, app, config, express, winston;
+  var PORT, app, config, errorface, express, winston;
 
   express = require('express');
 
   app = express();
 
   PORT = 8000;
+
+  errorface = require('errorface');
 
   winston = require('winston');
 
@@ -15,6 +17,7 @@
 
   require('./dbloader/loader.js')(app, config, function() {
     var server;
+    app.use(errorface.errorHandler());
     return server = app.listen(PORT, function() {
       var host, port;
       host = server.address().address;

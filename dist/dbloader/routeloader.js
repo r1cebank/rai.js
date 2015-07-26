@@ -1,6 +1,6 @@
 (function() {
   module.exports = function() {
-    var fileRegex, loader, path, q, queries, resBuilder, routeRegex, self, sqlite, winston;
+    var fileRegex, hashmap, loader, path, q, queries, resBuilder, routeRegex, self, sqlite, winston;
     self = {};
     queries = require('../config/queries.json');
     loader = require('./dbloader.js')(queries);
@@ -12,6 +12,8 @@
     path = require('path');
     fileRegex = /^.*\.(sqlite|sqlite2|sqlite3)$/;
     routeRegex = /^(\/[A-Za-z]+)$/;
+    hashmap = require('hashmap');
+    self.pathCache = new hashmap();
     self.loadRouteForFile = function(app, config, filename) {
       var db, deferred, promise;
       deferred = q.defer();
@@ -28,11 +30,12 @@
             route = routes[i];
             if (routeRegex.test(route.path)) {
               winston.info("path " + route.path + " is valid!");
+              path = "/" + info.name + route.path;
+              self.pathCache.set(path, route);
               if (route.request_type === "get") {
-                path = "/" + info.name + route.path;
                 winston.info("setting new get route " + path);
                 results.push(app.get(path, function(req, res) {
-                  return resBuilder.buildResponse(req, res).done();
+                  return resBuilder.buildResponse(req, res, self.pathCache).done();
                 }));
               } else {
                 results.push(void 0);

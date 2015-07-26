@@ -21,6 +21,10 @@ module.exports = ->
   # regex for routes
   routeRegex = /^(\/[A-Za-z]+)$/
 
+  # path cache
+  hashmap = require 'hashmap'
+  self.pathCache = new hashmap()
+
   self.loadRouteForFile = (app, config, filename) ->
     deferred = q.defer()
     if fileRegex.test filename
@@ -36,13 +40,17 @@ module.exports = ->
         for route in routes
           if routeRegex.test route.path
             winston.info "path #{route.path} is valid!"
+            # path builder
+            path = "/" + info.name + route.path
+            # local cache
+            self.pathCache.set path, route
+            #cachePromise = pathCache.storePath path, route
             # test request type
             if route.request_type is "get"
-              path = "/" + info.name + route.path
               winston.info "setting new get route #{path}"
               app.get path, (req, res) ->
                 # middleware function builder start here
-                resBuilder.buildResponse req, res
+                resBuilder.buildResponse req, res, self.pathCache
                 .done()
                 # middleware function ends here
       .catch (err) ->

@@ -6,10 +6,15 @@
   module.exports = function() {
     var self;
     self = {};
-    self.buildResponse = function(req, res) {
-      var deferred;
+    self.buildResponse = function(req, res, cache) {
+      var deferred, responseConfig;
       deferred = q.defer();
-      res.send(req.path + " is working.");
+      responseConfig = cache.get(req.path);
+      if (responseConfig != null) {
+        res.send(responseConfig);
+      } else {
+        res.send("something is not right here");
+      }
       return deferred.promise;
     };
     return self;
