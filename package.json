@@ -5,8 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "gulp && node dist/app.js",
-    "test": "mocha",
-    "prestart": "gulp clean"
+    "test": "gulp server && mocha",
+    "prestart": "gulp clean",
+    "posttest": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.0.0",
+    "chai-as-promised": "^5.1.0",
     "coffee-script": "^1.9.3",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
@@ -24,6 +26,7 @@
     "gulp-if": "^1.2.5",
     "gulp-jshint": "^1.11.2",
     "gulp-plumber": "^1.0.1",
+    "gulp-shell": "^0.4.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-watch": "^4.3.1",

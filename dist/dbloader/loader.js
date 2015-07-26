@@ -19,6 +19,9 @@
       return routeloader.loadRouteForFile(app, config, filename);
     })).then(function() {
       return done();
+    })["catch"](function(e) {
+      winston.error(e);
+      return done();
     }).done();
   };
 

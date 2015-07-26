@@ -16,4 +16,7 @@ module.exports = (app, config, done) ->
     return routeloader.loadRouteForFile app, config, filename
   .then () ->
     done()
+  .catch (e) ->
+    winston.error e
+    done()
   .done()
