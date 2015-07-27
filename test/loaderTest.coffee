@@ -24,13 +24,12 @@ serverConfig = clientdbPath: './'
 self = { }
 self.testVar = 'OOF'
 
-beforeEach (done) ->
-  require('../' + path.join config.paths.dest, 'dbloader', 'loader.js')(app, serverConfig, () ->
-    self.testVar = '00D'
-    done()
-  )
-
 describe 'loader', () ->
+  beforeEach (done) ->
+    require('../' + path.join config.paths.dest, 'dbloader', 'loader.js')(app, serverConfig, () ->
+      self.testVar = '00D'
+      done()
+    )
   it 'should call done', (done) ->
     self.testVar.should.equal '00D'
     done()
