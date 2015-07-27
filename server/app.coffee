@@ -19,7 +19,7 @@ config = require './config/serverConfig.json'
 
 # set up routes
 
-require('./dbloader/loader.js')(app, config, ->
+require('./dbloader/loader.js')(app, config, winston, ->
   app.use errorface.errorHandler()
   server = app.listen PORT, ->
     host = server.address().address

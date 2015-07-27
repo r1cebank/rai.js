@@ -15,7 +15,7 @@
 
   config = require('./config/serverConfig.json');
 
-  require('./dbloader/loader.js')(app, config, function() {
+  require('./dbloader/loader.js')(app, config, winston, function() {
     var server;
     app.use(errorface.errorHandler());
     return server = app.listen(PORT, function() {

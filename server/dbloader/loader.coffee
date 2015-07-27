@@ -1,15 +1,10 @@
 # filesystem
 fs = require 'fs'
-# log
-winston = require 'winston'
-winston.cli()
 # q
 q = require 'q'
 
-
-routeloader = require('./routeloader.js')()
-
-module.exports = (app, config, done) ->
+module.exports = (app, config, winston, done) ->
+  routeloader = require('./routeloader.js')(winston)
   winston.info "scanning clientdb directory..."
   filenames = fs.readdirSync config.clientdbPath
   q.allSettled filenames.map (filename) ->

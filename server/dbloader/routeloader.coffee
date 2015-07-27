@@ -1,5 +1,5 @@
 
-module.exports = ->
+module.exports = (winston) ->
   self = { }
   # queries
   queries = require '../config/queries.json'
@@ -9,9 +9,6 @@ module.exports = ->
   resBuilder = require('./responseBuilder.js')()
   # local database
   sqlite = require('sqlite3').verbose()
-  # log
-  winston = require 'winston'
-  winston.cli()
   # q
   q = require 'q'
   # filesystem

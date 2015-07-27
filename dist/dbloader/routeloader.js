@@ -1,13 +1,11 @@
 (function() {
-  module.exports = function() {
-    var fileRegex, hashmap, loader, path, q, queries, resBuilder, routeRegex, self, sqlite, winston;
+  module.exports = function(winston) {
+    var fileRegex, hashmap, loader, path, q, queries, resBuilder, routeRegex, self, sqlite;
     self = {};
     queries = require('../config/queries.json');
     loader = require('./dbloader.js')(queries);
     resBuilder = require('./responseBuilder.js')();
     sqlite = require('sqlite3').verbose();
-    winston = require('winston');
-    winston.cli();
     q = require('q');
     path = require('path');
     fileRegex = /^.*\.(sqlite|sqlite2|sqlite3)$/;

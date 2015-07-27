@@ -1,18 +1,13 @@
 (function() {
-  var fs, q, routeloader, winston;
+  var fs, q;
 
   fs = require('fs');
 
-  winston = require('winston');
-
-  winston.cli();
-
   q = require('q');
 
-  routeloader = require('./routeloader.js')();
-
-  module.exports = function(app, config, done) {
-    var filenames;
+  module.exports = function(app, config, winston, done) {
+    var filenames, routeloader;
+    routeloader = require('./routeloader.js')(winston);
     winston.info("scanning clientdb directory...");
     filenames = fs.readdirSync(config.clientdbPath);
     return q.allSettled(filenames.map(function(filename) {

@@ -8,6 +8,11 @@ argv      = require('yargs')
   .default('t', 'development')
   .argv
 
+# log
+winston = require 'winston'
+winston.cli()
+winston.level = 'error'
+
 # Config Object
 config    = yaml.parse fs.readFileSync './targets.yml', 'utf8'
 config    = _.extend config.default, config[argv.target]
@@ -26,7 +31,7 @@ self.testVar = 'OOF'
 
 describe 'loader', () ->
   beforeEach (done) ->
-    require('../' + path.join config.paths.dest, 'dbloader', 'loader.js')(app, serverConfig, () ->
+    require('../' + path.join config.paths.dest, 'dbloader', 'loader.js')(app, serverConfig, winston, () ->
       self.testVar = '00D'
       done()
     )
