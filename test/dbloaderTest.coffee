@@ -30,7 +30,7 @@ chai.use chaiAsPromised
 express = require 'express'
 app = express()
 
-serverConfig = clientdbPath: './test'
+serverConfig = clientdbPath: './test/assets'
 queries = require('../' + path.join config.paths.dest, 'config', './queries.json')
 
 describe 'dbloader', () ->
@@ -39,6 +39,10 @@ describe 'dbloader', () ->
     db = new sqlite.Database path.join serverConfig.clientdbPath, 'test.sqlite3'
     promise = dbloader.getRoutes db
     return promise.should.be.fulfilled
+  it 'should fail if no info table', () ->
+    db = new sqlite.Database path.join serverConfig.clientdbPath, 'test-no-info.sqlite3'
+    promise = dbloader.getApplicationInfo db
+    return promise.should.be.rejected
   it 'should not load other file', () ->
     db = new sqlite.Database path.join serverConfig.clientdbPath, 'test.tmp'
     promise = dbloader.getRoutes db

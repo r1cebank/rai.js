@@ -30,7 +30,7 @@ chai.use chaiAsPromised
 express = require 'express'
 app = express()
 
-serverConfig = clientdbPath: './test'
+serverConfig = clientdbPath: './test/assets'
 
 describe 'routeloader', () ->
   routeloader = require('../' + path.join config.paths.dest, 'dbloader', './routeloader.js')(winston)

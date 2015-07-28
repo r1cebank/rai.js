@@ -24,7 +24,7 @@ should = require('chai').should()
 express = require 'express'
 app = express()
 # server config
-serverConfig = clientdbPath: './'
+serverConfig = clientdbPath: './test/assets'
 
 self = { }
 self.testVar = 'OOF'
