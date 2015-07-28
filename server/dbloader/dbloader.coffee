@@ -6,17 +6,17 @@ module.exports = (queries) ->
 
   self.getRoutes = (db) ->
     deferred = q.defer()
-    db.all queries.getRoutes, (err, rows) ->
-      if err
+    db.all queries.getRoutes, (error, rows) ->
+      if error
         deferred.reject new Error error
       else
         deferred.resolve(rows)
     return deferred.promise
   self.getApplicationInfo = (db) ->
     deferred = q.defer()
-    db.all queries.getInfo, (err, rows) ->
-      if err
-        deferred.reject new Error console.error
+    db.all queries.getInfo, (error, rows) ->
+      if error
+        deferred.reject new Error error
       else
         deferred.resolve(rows)
     return deferred.promise

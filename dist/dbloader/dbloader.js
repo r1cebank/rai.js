@@ -6,8 +6,8 @@
     self.getRoutes = function(db) {
       var deferred;
       deferred = q.defer();
-      db.all(queries.getRoutes, function(err, rows) {
-        if (err) {
+      db.all(queries.getRoutes, function(error, rows) {
+        if (error) {
           return deferred.reject(new Error(error));
         } else {
           return deferred.resolve(rows);
@@ -18,9 +18,9 @@
     self.getApplicationInfo = function(db) {
       var deferred;
       deferred = q.defer();
-      db.all(queries.getInfo, function(err, rows) {
-        if (err) {
-          return deferred.reject(new Error(console.error));
+      db.all(queries.getInfo, function(error, rows) {
+        if (error) {
+          return deferred.reject(new Error(error));
         } else {
           return deferred.resolve(rows);
         }

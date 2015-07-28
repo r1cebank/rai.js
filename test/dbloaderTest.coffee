@@ -31,17 +31,15 @@ express = require 'express'
 app = express()
 
 serverConfig = clientdbPath: './test'
+queries = require('../' + path.join config.paths.dest, 'config', './queries.json')
 
-describe 'routeloader', () ->
-  routeloader = require('../' + path.join config.paths.dest, 'dbloader', './routeloader.js')(winston)
-  it 'should load sqlite2', () ->
-    promise = routeloader.loadRouteForFile app, serverConfig, 'test.sqlite3'
+describe 'dbloader', () ->
+  dbloader = require('../' + path.join config.paths.dest, 'dbloader', './dbloader.js')(queries)
+  it 'should load routes', () ->
+    db = new sqlite.Database path.join serverConfig.clientdbPath, 'test.sqlite3'
+    promise = dbloader.getRoutes db
     return promise.should.be.fulfilled
   it 'should not load other file', () ->
-    promise = routeloader.loadRouteForFile app, serverConfig, 'test.tmp'
+    db = new sqlite.Database path.join serverConfig.clientdbPath, 'test.tmp'
+    promise = dbloader.getRoutes db
     return promise.should.be.rejected
-  it 'should cached the path', () ->
-    routeloader.pathCache.count().should.equal(2)
-  it 'path cache should not be correct', () ->
-    routeloader.pathCache.get('/testApp/admin').should.be.a('object')
-    routeloader.pathCache.get('/testApp/users').should.be.a('object')

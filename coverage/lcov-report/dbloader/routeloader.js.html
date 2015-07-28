@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header medium">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">dbloader/routeloader.js</span></h1>
     <h2>
-        Statements: <span class="metric">60% <small>(27 / 45)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">33.33% <small>(2 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">37.5% <small>(3 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">60% <small>(27 / 45)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">90.7% <small>(39 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">66.67% <small>(4 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">75% <small>(6 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">90.7% <small>(39 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">dbloader/</a> &#187; routeloader.js</div>
@@ -84,12 +84,8 @@
 57
 58
 59
-60
-61
-62</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+60</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
@@ -110,22 +106,19 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -134,9 +127,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18</span>
@@ -148,15 +144,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function() {
-  module.exports = function() {
-    var fileRegex, hashmap, loader, path, q, queries, resBuilder, routeRegex, self, sqlite, winston;
+  module.exports = function(winston) {
+    var fileRegex, hashmap, loader, path, q, queries, resBuilder, routeRegex, self, sqlite;
     self = {};
     queries = require('../config/queries.json');
     loader = require('./dbloader.js')(queries);
     resBuilder = require('./responseBuilder.js')();
     sqlite = require('sqlite3').verbose();
-    winston = require('winston');
-    winston.cli();
     q = require('q');
     path = require('path');
     fileRegex = /^.*\.(sqlite|sqlite2|sqlite3)$/;
@@ -170,20 +164,20 @@
         winston.info("loading " + filename);
         db = new sqlite.Database(path.join(config.clientdbPath, filename));
         promise = loader.getApplicationInfo(db);
-        promise.then(<span class="fstat-no" title="function not covered" >function(rows) {</span>
-<span class="cstat-no" title="statement not covered" >          return [rows[0], loader.getRoutes(db)];</span>
-        }).spread(<span class="fstat-no" title="function not covered" >function(info, routes) {</span>
-<span class="cstat-no" title="statement not covered" >          var i, len, results, route;</span>
-<span class="cstat-no" title="statement not covered" >          results = [];</span>
-<span class="cstat-no" title="statement not covered" >          for (i = 0, len = routes.length; i &lt; len; i++) {</span>
-<span class="cstat-no" title="statement not covered" >            route = routes[i];</span>
-<span class="cstat-no" title="statement not covered" >            if (routeRegex.test(route.path)) {</span>
-<span class="cstat-no" title="statement not covered" >              winston.info("path " + route.path + " is valid!");</span>
-<span class="cstat-no" title="statement not covered" >              path = "/" + info.name + route.path;</span>
-<span class="cstat-no" title="statement not covered" >              self.pathCache.set(path, route);</span>
-<span class="cstat-no" title="statement not covered" >              if (route.request_type === "get") {</span>
-<span class="cstat-no" title="statement not covered" >                winston.info("setting new get route " + path);</span>
-<span class="cstat-no" title="statement not covered" >                results.push(app.get(path, <span class="fstat-no" title="function not covered" >function(req, res) {</span></span>
+        promise.then(function(rows) {
+          return [rows[0], loader.getRoutes(db)];
+        }).spread(function(info, routes) {
+          var i, len, results, route;
+          results = [];
+          for (i = 0, len = routes.length; i &lt; len; i++) {
+            route = routes[i];
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (routeRegex.test(route.path)) {
+              winston.info("path " + route.path + " is valid!");
+              path = "/" + info.name + route.path;
+              self.pathCache.set(path, route);
+              <span class="missing-if-branch" title="else path not taken" >E</span>if (route.request_type === "get") {
+                winston.info("setting new get route " + path);
+                results.push(app.get(path, <span class="fstat-no" title="function not covered" >function(req, res) {</span>
 <span class="cstat-no" title="statement not covered" >                  return resBuilder.buildResponse(req, res, self.pathCache).done();</span>
                 }));
               } else {
@@ -193,11 +187,11 @@
 <span class="cstat-no" title="statement not covered" >              results.push(void 0);</span>
             }
           }
-<span class="cstat-no" title="statement not covered" >          return results;</span>
+          return results;
         })["catch"](<span class="fstat-no" title="function not covered" >function(err) {</span>
 <span class="cstat-no" title="statement not covered" >          return deferred.reject(new Error(err));</span>
-        })["finally"](<span class="fstat-no" title="function not covered" >function() {</span>
-<span class="cstat-no" title="statement not covered" >          return deferred.resolve();</span>
+        })["finally"](function() {
+          return deferred.resolve();
         }).done();
       } else {
         deferred.reject(new Error("file is not sqlite"));
@@ -213,7 +207,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jul 26 2015 19:02:42 GMT-0700 (PDT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jul 27 2015 20:19:36 GMT-0700 (PDT)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>
