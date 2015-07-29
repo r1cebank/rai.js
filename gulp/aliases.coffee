@@ -7,6 +7,8 @@ module.exports = (gulp, config) ->
 
   gulp.task 'clean-all', ['server:clean-all']
 
+  gulp.task 'doc', ['server:doc']
+
   gulp.task 'watch', ['server:watch']
 
   gulp.task 'clean', ['server:clean']

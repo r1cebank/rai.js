@@ -10,7 +10,7 @@ argv      = require('yargs')
 # log
 winston = require 'winston'
 winston.cli()
-winston.level = 'error'
+winston.level = 'none'
 
 # Config Object
 config    = yaml.parse fs.readFileSync './targets.yml', 'utf8'
@@ -33,13 +33,22 @@ app = express()
 serverConfig = clientdbPath: './test/assets'
 
 describe 'routeloader', () ->
-  routeloader = require('../' + path.join config.paths.dest, 'dbloader', './routeloader.js')(winston)
+  routeloader = { }
+  beforeEach () ->
+    routeloader = require('../' + path.join config.paths.dest, 'dbloader', './routeloader.js')(winston)
   it 'should load sqlite2', () ->
     promise = routeloader.loadRouteForFile app, serverConfig, 'test.sqlite3'
-    return promise.should.be.fulfilled
+    return promise.should.be.fufilled
   it 'should not load other file', () ->
     promise = routeloader.loadRouteForFile app, serverConfig, 'test.tmp'
     return promise.should.be.rejected
+  it 'invalid path should fail', () ->
+    promise = routeloader.loadRouteForFile app, serverConfig, 'test-invalid-path.sqlite3'
+    return promise.should.be.rejected
+describe 'path cache', () ->
+  routeloader = require('../' + path.join config.paths.dest, 'dbloader', './routeloader.js')(winston)
+  beforeEach () ->
+    promise = routeloader.loadRouteForFile app, serverConfig, 'test.sqlite3'
   it 'should cached the path', () ->
     routeloader.pathCache.count().should.equal(2)
   it 'path cache should not be correct', () ->

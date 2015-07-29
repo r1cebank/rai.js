@@ -22,31 +22,40 @@
         promise.then(function(rows) {
           return [rows[0], loader.getRoutes(db)];
         }).spread(function(info, routes) {
-          var i, len, results, route;
+          var apiPath, i, len, results, route;
           results = [];
           for (i = 0, len = routes.length; i < len; i++) {
             route = routes[i];
+            winston.verbose("[" + filename + "]: " + (JSON.stringify(route)));
             if (routeRegex.test(route.path)) {
-              winston.info("path " + route.path + " is valid!");
-              path = "/" + info.name + route.path;
-              self.pathCache.set(path, route);
+              winston.info("[" + filename + "]: path " + route.path + " is valid!");
+              apiPath = "/" + info.name + route.path;
+              self.pathCache.set(apiPath, route);
               if (route.request_type === "get") {
-                winston.info("setting new get route " + path);
-                results.push(app.get(path, function(req, res) {
+                winston.info("[" + filename + "]: setting new get route " + apiPath);
+                results.push(app.get(apiPath, function(req, res) {
                   return resBuilder.buildResponse(req, res, self.pathCache).done();
                 }));
               } else {
                 results.push(void 0);
               }
             } else {
-              results.push(void 0);
+              winston.error(route.path + " failed regex test.");
+              throw new Error("[" + filename + "]: Route failed regex test.");
             }
           }
           return results;
         })["catch"](function(err) {
+          winston.error("[" + filename + "]: caught error from promise.");
+          winston.error(err);
           return deferred.reject(new Error(err));
         })["finally"](function() {
-          return deferred.resolve();
+          if (deferred.promise.inspect().state === 'rejected') {
+            return winston.verbose("[" + filename + "]: rejecting master promise.");
+          } else {
+            winston.verbose("[" + filename + "]: resolving master promise.");
+            return deferred.resolve();
+          }
         }).done();
       } else {
         deferred.reject(new Error("file is not sqlite"));

@@ -35,25 +35,34 @@ module.exports = (winston) ->
       .spread (info, routes) ->
         # now you have all the info
         for route in routes
+          winston.verbose "[#{filename}]: #{JSON.stringify(route)}"
           if routeRegex.test route.path
-            winston.info "path #{route.path} is valid!"
+            winston.info "[#{filename}]: path #{route.path} is valid!"
             # path builder
-            path = "/" + info.name + route.path
+            apiPath = "/" + info.name + route.path
             # local cache
-            self.pathCache.set path, route
-            #cachePromise = pathCache.storePath path, route
+            self.pathCache.set apiPath, route
             # test request type
             if route.request_type is "get"
-              winston.info "setting new get route #{path}"
-              app.get path, (req, res) ->
+              winston.info "[#{filename}]: setting new get route #{apiPath}"
+              app.get apiPath, (req, res) ->
                 # middleware function builder start here
                 resBuilder.buildResponse req, res, self.pathCache
                 .done()
                 # middleware function ends here
+          else
+            winston.error "#{route.path} failed regex test."
+            throw new Error "[#{filename}]: Route failed regex test."
       .catch (err) ->
+        winston.error "[#{filename}]: caught error from promise."
+        winston.error err
         deferred.reject new Error err
       .finally () ->
-        deferred.resolve()
+        if deferred.promise.inspect().state is 'rejected'
+          winston.verbose "[#{filename}]: rejecting master promise."
+        else
+          winston.verbose "[#{filename}]: resolving master promise."
+          deferred.resolve()
       .done()
     else
       deferred.reject new Error("file is not sqlite")
