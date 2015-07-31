@@ -39,6 +39,11 @@
                   routeloader.coffee
                 </a>
               
+                
+                <a class="source" href="inputMapper.html">
+                  inputMapper.coffee
+                </a>
+              
             </div>
           </div>
         </li>
@@ -64,8 +69,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-params">(queries)</span> -&gt;</span>
-  self = { }</pre></div></div>
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-params">(queries)</span> -&gt;</span></pre></div></div>
             
         </li>
         
@@ -76,29 +80,225 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
+              <p>setting self as empty object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  self = { }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
               <p>q promise library</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  q = <span class="hljs-built_in">require</span> <span class="hljs-string">'q'</span>
+            <div class="content"><div class='highlight'><pre>  q = <span class="hljs-built_in">require</span> <span class="hljs-string">'q'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>get routes from db (returns promise)</p>
 
-  self.getRoutes = <span class="hljs-function"><span class="hljs-params">(db)</span> -&gt;</span>
-    deferred = q.defer()
-    db.all queries.getRoutes, <span class="hljs-function"><span class="hljs-params">(error, rows)</span> -&gt;</span>
-      <span class="hljs-keyword">if</span> error
-        deferred.reject <span class="hljs-keyword">new</span> Error error
-      <span class="hljs-keyword">else</span>
-        deferred.resolve(rows)
-    <span class="hljs-keyword">return</span> deferred.promise
-  self.getApplicationInfo = <span class="hljs-function"><span class="hljs-params">(db)</span> -&gt;</span>
-    deferred = q.defer()
-    db.all queries.getInfo, <span class="hljs-function"><span class="hljs-params">(error, rows)</span> -&gt;</span>
-      <span class="hljs-keyword">if</span> error
-        deferred.reject <span class="hljs-keyword">new</span> Error error
-      <span class="hljs-keyword">else</span>
-        deferred.resolve(rows)
-    <span class="hljs-keyword">return</span> deferred.promise
-  <span class="hljs-keyword">return</span> self</pre></div></div>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  self.getRoutes = <span class="hljs-function"><span class="hljs-params">(db)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>create a deferred promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    deferred = q.defer()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>run query to get routes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    db.all queries.getRoutes, <span class="hljs-function"><span class="hljs-params">(error, rows)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> error</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>reject promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        deferred.reject <span class="hljs-keyword">new</span> Error error
+      <span class="hljs-keyword">else</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>resolve promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        deferred.resolve(rows)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>return the promise fron deferred</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deferred.promise</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>get application info from db (returns promise)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  self.getApplicationInfo = <span class="hljs-function"><span class="hljs-params">(db)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>create a deferred promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    deferred = q.defer()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>run query to get routes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    db.all queries.getInfo, <span class="hljs-function"><span class="hljs-params">(error, rows)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> error</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>reject promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        deferred.reject <span class="hljs-keyword">new</span> Error error
+      <span class="hljs-keyword">else</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>resolve promise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        deferred.resolve(rows)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>return the promise fron deferred</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deferred.promise</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>return the module</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> self</pre></div></div>
             
         </li>
         

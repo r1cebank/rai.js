@@ -39,6 +39,11 @@
                   routeloader.coffee
                 </a>
               
+                
+                <a class="source" href="inputMapper.html">
+                  inputMapper.coffee
+                </a>
+              
             </div>
           </div>
         </li>
@@ -255,8 +260,9 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">for</span> route <span class="hljs-keyword">in</span> routes
+          winston.verbose <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: <span class="hljs-subst">#{JSON.stringify(route)}</span>"</span>
           <span class="hljs-keyword">if</span> routeRegex.test route.path
-            winston.info <span class="hljs-string">"path <span class="hljs-subst">#{route.path}</span> is valid!"</span></pre></div></div>
+            winston.info <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: path <span class="hljs-subst">#{route.path}</span> is valid!"</span></pre></div></div>
             
         </li>
         
@@ -271,7 +277,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            path = <span class="hljs-string">"/"</span> + info.name + route.path</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            apiPath = <span class="hljs-string">"/"</span> + info.name + route.path</pre></div></div>
             
         </li>
         
@@ -286,7 +292,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            self.pathCache.set path, route</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            self.pathCache.set apiPath, route</pre></div></div>
             
         </li>
         
@@ -297,14 +303,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>cachePromise = pathCache.storePath path, route
-test request type</p>
+              <p>test request type</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> route.request_type <span class="hljs-keyword">is</span> <span class="hljs-string">"get"</span>
-              winston.info <span class="hljs-string">"setting new get route <span class="hljs-subst">#{path}</span>"</span>
-              app.get path, <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span></pre></div></div>
+              winston.info <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: setting new get route <span class="hljs-subst">#{apiPath}</span>"</span>
+              app.get apiPath, <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span></pre></div></div>
             
         </li>
         
@@ -335,10 +340,19 @@ test request type</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      .<span class="hljs-keyword">catch</span> (err) -&gt;
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">else</span>
+            winston.error <span class="hljs-string">"<span class="hljs-subst">#{route.path}</span> failed regex test."</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: Route failed regex test."</span>
+      .<span class="hljs-keyword">catch</span> (err) -&gt;
+        winston.error <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: caught error from promise."</span>
+        winston.error err
         deferred.reject <span class="hljs-keyword">new</span> Error err
       .<span class="hljs-keyword">finally</span> () -&gt;
-        deferred.resolve()
+        <span class="hljs-keyword">if</span> deferred.promise.inspect().state <span class="hljs-keyword">is</span> <span class="hljs-string">'rejected'</span>
+          winston.verbose <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: rejecting master promise."</span>
+        <span class="hljs-keyword">else</span>
+          winston.verbose <span class="hljs-string">"[<span class="hljs-subst">#{filename}</span>]: resolving master promise."</span>
+          deferred.resolve()
       .done()
     <span class="hljs-keyword">else</span>
       deferred.reject <span class="hljs-keyword">new</span> Error(<span class="hljs-string">"file is not sqlite"</span>)

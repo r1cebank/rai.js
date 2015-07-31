@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>responseBuilder.coffee</title>
+  <title>inputMapper.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -53,7 +53,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>responseBuilder.coffee</h1>
+                  <h1>inputMapper.coffee</h1>
               </div>
           </li>
         
@@ -67,48 +67,6 @@
               </div>
               
             </div>
-            
-            <div class="content"><div class='highlight'><pre>q = <span class="hljs-built_in">require</span> <span class="hljs-string">'q'</span>
-
-<span class="hljs-built_in">module</span>.exports = <span class="hljs-function">-&gt;</span>
-  self = { }
-  self.buildResponse = <span class="hljs-function"><span class="hljs-params">(req, res, cache)</span> -&gt;</span>
-    deferred = q.defer()
-    responseConfig = cache.get req.path</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>path is cached</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> responseConfig?
-      res.send responseConfig
-    <span class="hljs-keyword">else</span>
-      res.send <span class="hljs-string">"something is not right here"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>res.send req.path + “ is working.”</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deferred.promise
-  <span class="hljs-keyword">return</span> self</pre></div></div>
             
         </li>
         
