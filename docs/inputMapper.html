@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>inputMapper.coffee</title>
+  <title>input mapper</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -44,18 +44,17 @@
                   inputMapper.coffee
                 </a>
               
+                
+                <a class="source" href="reqChecker.html">
+                  reqChecker.coffee
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>inputMapper.coffee</h1>
-              </div>
-          </li>
         
         
         
@@ -65,8 +64,51 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="input-mapper">input mapper</h1>
+<p> used the input map provided by the user db and
+ create the adjusted input mapped with db
+ data source is input script</p>
+<p>#</p>
+
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">module</span>.exports = <span class="hljs-function">-&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>lodash</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _ = <span class="hljs-built_in">require</span> <span class="hljs-string">'lodash'</span>
+  self = { }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>map input using the inputmap</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  self.mapInput = <span class="hljs-function"><span class="hljs-params">(map, input)</span> -&gt;</span>
+    mappedInput = { }
+    _.forIn map, <span class="hljs-function"><span class="hljs-params">(value, key)</span> -&gt;</span>
+      mappedInput[value] = input[key]
+    <span class="hljs-keyword">return</span> mappedInput
+  <span class="hljs-keyword">return</span> self</pre></div></div>
             
         </li>
         

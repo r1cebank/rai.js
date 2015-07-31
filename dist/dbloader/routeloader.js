@@ -4,7 +4,7 @@
     self = {};
     queries = require('../config/queries.json');
     loader = require('./dbloader.js')(queries);
-    resBuilder = require('./responseBuilder.js')();
+    resBuilder = require('./responseBuilder.js')(winston);
     sqlite = require('sqlite3').verbose();
     q = require('q');
     path = require('path');

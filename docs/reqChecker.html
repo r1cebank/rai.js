@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>responseBuilder.coffee</title>
+  <title>req checker</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -56,12 +56,6 @@
     
     <ul class="sections">
         
-          <li id="title">
-              <div class="annotation">
-                  <h1>responseBuilder.coffee</h1>
-              </div>
-          </li>
-        
         
         
         <li id="section-1">
@@ -70,13 +64,14 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>q promise library</p>
+              <h1 id="req-checker">req checker</h1>
+<p> uses the map and user input array to check validity of the request</p>
+<p>#</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>q = <span class="hljs-built_in">require</span> <span class="hljs-string">'q'</span>
-
-<span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-params">(winston)</span> -&gt;</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function">-&gt;</span></pre></div></div>
             
         </li>
         
@@ -87,18 +82,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>setting current module to empty object</p>
+              <p>lodash</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  self = { }
-  reqChecker = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../validator/reqChecker.js'</span>)()
-  inputMapper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../mapper/inputMapper.js'</span>)()
-
-  self.buildResponse = <span class="hljs-function"><span class="hljs-params">(req, res, cache)</span> -&gt;</span>
-    deferred = q.defer()
-    responseConfig = cache.get req.path
-    input_query_map = JSON.parse(responseConfig.input_query_map)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  _ = <span class="hljs-built_in">require</span> <span class="hljs-string">'lodash'</span></pre></div></div>
             
         </li>
         
@@ -109,11 +97,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>path is cached</p>
+              <p>set module to empty object</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> responseConfig?</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  self = { }</pre></div></div>
             
         </li>
         
@@ -124,21 +112,14 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>check inputmap</p>
+              <p>check request query using inputmap
+more data OK, less NO</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      checkResult =
-        reqChecker.checkReq req.query, input_query_map
-      <span class="hljs-keyword">if</span> !checkResult[<span class="hljs-number">0</span>]
-        res.send
-          <span class="hljs-attribute">error</span>: <span class="hljs-string">"Request do not match input_query_map, missing <span class="hljs-subst">#{checkResult[<span class="hljs-number">1</span>]}</span>"</span>
-      <span class="hljs-keyword">else</span>
-        inputMap = inputMapper.mapInput input_query_map, req.query
-        winston.info <span class="hljs-string">"Inputmap is: <span class="hljs-subst">#{JSON.stringify(inputMap)}</span>"</span>
-        res.send <span class="hljs-string">"Request is correct"</span>
-    <span class="hljs-keyword">else</span>
-      res.send <span class="hljs-string">"something happened"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  self.checkReq = <span class="hljs-function"><span class="hljs-params">(req, map)</span> -&gt;</span>
+    val = <span class="hljs-literal">true</span>
+    atKey = <span class="hljs-string">''</span></pre></div></div>
             
         </li>
         
@@ -149,11 +130,15 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>res.send req.path + “ is working.”</p>
+              <p>checking if all key specified in map matches the input</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deferred.promise
+            <div class="content"><div class='highlight'><pre>    _.forIn map, <span class="hljs-function"><span class="hljs-params">(value, key)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> !req[key]
+        val = <span class="hljs-literal">false</span>
+        atKey = key
+    <span class="hljs-keyword">return</span> [val, atKey]
   <span class="hljs-keyword">return</span> self</pre></div></div>
             
         </li>

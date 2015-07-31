@@ -6,6 +6,13 @@
 #
 ##
 module.exports = ->
+  # lodash
+  _ = require 'lodash'
   self = { }
-
+  # map input using the inputmap
+  self.mapInput = (map, input) ->
+    mappedInput = { }
+    _.forIn map, (value, key) ->
+      mappedInput[value] = input[key]
+    return mappedInput
   return self

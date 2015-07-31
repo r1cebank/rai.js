@@ -6,7 +6,7 @@ module.exports = (winston) ->
   # dbloader
   loader = require('./dbloader.js')(queries)
   # response builder
-  resBuilder = require('./responseBuilder.js')()
+  resBuilder = require('./responseBuilder.js')(winston)
   # local database
   sqlite = require('sqlite3').verbose()
   # q
