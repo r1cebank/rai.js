@@ -46,6 +46,7 @@
     "sandbox": "^0.8.6",
     "shortid": "^2.2.2",
     "sqlite3": "^3.0.9",
+    "syntax-error": "^1.1.4",
     "winston": "^1.0.1"
   }
 }
