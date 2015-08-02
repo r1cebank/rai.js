@@ -38,7 +38,20 @@
       });
     });
     hub.on('event', function(data) {
-      return winston.info("got message from slave.");
+      winston.info("got message from slave.");
+      if (data.event === 'reload') {
+        winston.info("reloading clientdb");
+        winston.error("data reload not implemented.");
+        app._router.stack = app._router.stack.filter(function(obj) {
+          return obj.route === void 0;
+        });
+        console.log(app._router.stack);
+        return require('./dbloader/loader.js')(app, config, winston, function() {
+          return require('./fixtures/api_table.js')(app._router.stack, 'express');
+        });
+      } else {
+        return winston.verbose("ignoring action");
+      }
     });
   } else {
     winston.info("slave online");

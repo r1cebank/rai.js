@@ -44,6 +44,18 @@ if cluster.isMaster
   hub.on 'event', (data) ->
     # recieved event from slave
     winston.info "got message from slave."
+    if data.event is 'reload'
+      winston.info "reloading clientdb"
+      winston.error "data reload not tested."
+      app._router.stack = app._router.stack.filter (obj) ->
+        return obj.route == undefined
+      console.log app._router.stack
+      require('./dbloader/loader.js')(app, config, winston, ->
+        # using api_table to output api table
+        require('./fixtures/api_table.js')(app._router.stack, 'express')
+      )
+    else
+      winston.verbose "ignoring action"
 else
   winston.info "slave online"
   winston.info "watching clientdb folder: #{config.clientdbPath}"
