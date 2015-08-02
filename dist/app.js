@@ -1,5 +1,5 @@
 (function() {
-  var PORT, app, cluster, config, errorface, express, fs, hub, winston;
+  var PORT, app, cluster, config, errorface, express, fs, hub, reloadData, winston;
 
   cluster = require('cluster');
 
@@ -23,6 +23,25 @@
 
   config = require('./config/serverConfig.json');
 
+  reloadData = function(data) {
+    hub.removeAllListeners('event');
+    winston.info("got message from slave.");
+    if (data.event === 'reload') {
+      winston.info("reloading clientdb");
+      winston.error("data reload not tested.");
+      app._router.stack = app._router.stack.filter(function(obj) {
+        return obj.route === void 0;
+      });
+      console.log(app._router.stack);
+      return require('./dbloader/loader.js')(app, config, winston, function() {
+        require('./fixtures/api_table.js')(app._router.stack, 'express');
+        return hub.on('event', reloadData);
+      });
+    } else {
+      return winston.verbose("ignoring action");
+    }
+  };
+
   if (cluster.isMaster) {
     require('./dbloader/loader.js')(app, config, winston, function() {
       var server;
@@ -37,22 +56,7 @@
         return cluster.fork();
       });
     });
-    hub.on('event', function(data) {
-      winston.info("got message from slave.");
-      if (data.event === 'reload') {
-        winston.info("reloading clientdb");
-        winston.error("data reload not tested.");
-        app._router.stack = app._router.stack.filter(function(obj) {
-          return obj.route === void 0;
-        });
-        console.log(app._router.stack);
-        return require('./dbloader/loader.js')(app, config, winston, function() {
-          return require('./fixtures/api_table.js')(app._router.stack, 'express');
-        });
-      } else {
-        return winston.verbose("ignoring action");
-      }
-    });
+    hub.on('event', reloadData);
   } else {
     winston.info("slave online");
     winston.info("watching clientdb folder: " + config.clientdbPath);
