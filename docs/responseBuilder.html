@@ -45,6 +45,11 @@
                 </a>
               
                 
+                <a class="source" href="sandbox.html">
+                  sandbox.coffee
+                </a>
+              
+                
                 <a class="source" href="reqChecker.html">
                   reqChecker.coffee
                 </a>
@@ -94,11 +99,13 @@
             <div class="content"><div class='highlight'><pre>  self = { }
   reqChecker = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../validator/reqChecker.js'</span>)()
   inputMapper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../mapper/inputMapper.js'</span>)()
+  sandbox = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../sandbox/sandbox.js'</span>)(winston)
 
   self.buildResponse = <span class="hljs-function"><span class="hljs-params">(req, res, cache)</span> -&gt;</span>
     deferred = q.defer()
     responseConfig = cache.get req.path
-    input_query_map = JSON.parse(responseConfig.input_query_map)</pre></div></div>
+    input_query_map = JSON.parse(responseConfig.input_query_map)
+    pre_query_script = responseConfig.pre_query_script</pre></div></div>
             
         </li>
         
@@ -133,12 +140,7 @@
       <span class="hljs-keyword">if</span> !checkResult[<span class="hljs-number">0</span>]
         res.send
           <span class="hljs-attribute">error</span>: <span class="hljs-string">"Request do not match input_query_map, missing <span class="hljs-subst">#{checkResult[<span class="hljs-number">1</span>]}</span>"</span>
-      <span class="hljs-keyword">else</span>
-        inputMap = inputMapper.mapInput input_query_map, req.query
-        winston.info <span class="hljs-string">"Inputmap is: <span class="hljs-subst">#{JSON.stringify(inputMap)}</span>"</span>
-        res.send <span class="hljs-string">"Request is correct"</span>
-    <span class="hljs-keyword">else</span>
-      res.send <span class="hljs-string">"something happened"</span></pre></div></div>
+      <span class="hljs-keyword">else</span></pre></div></div>
             
         </li>
         
@@ -148,6 +150,41 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>map input with inputMap provided in db</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        inputMap = inputMapper.mapInput input_query_map, req.query
+        winston.verbose <span class="hljs-string">"Inputmap is: <span class="hljs-subst">#{JSON.stringify(inputMap)}</span>"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>getting a promise from sandbox running pre query script</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        pre_query_promise = sandbox.runScript inputMap, pre_query_script
+        pre_query_promise.<span class="hljs-keyword">then</span> (result) -&gt;
+          res.send JSON.stringify result
+    <span class="hljs-keyword">else</span>
+      res.send <span class="hljs-string">"something happened"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>res.send req.path + “ is working.”</p>
 
