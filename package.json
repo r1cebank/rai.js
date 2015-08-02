@@ -1,6 +1,6 @@
 {
   "name": "rai",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Rai API Hosting",
   "main": "app.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.motiondex.com:r1cebank/rai.git"
+    "url": "git@github.com:R1cebank/rai.git"
   },
   "author": "Siyuan Gao",
   "license": "Apache-2.0",
@@ -49,5 +49,9 @@
     "sqlite3": "^3.0.9",
     "syntax-error": "^1.1.4",
     "winston": "^1.0.1"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
   }
 }
