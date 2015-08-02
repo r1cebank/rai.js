@@ -41,7 +41,7 @@
       winston.info("got message from slave.");
       if (data.event === 'reload') {
         winston.info("reloading clientdb");
-        winston.error("data reload not implemented.");
+        winston.error("data reload not tested.");
         app._router.stack = app._router.stack.filter(function(obj) {
           return obj.route === void 0;
         });

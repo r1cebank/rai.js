@@ -23,7 +23,6 @@ config = require './config/serverConfig.json'
 # use middlewares
 
 
-
 # set up routes
 
 if cluster.isMaster
