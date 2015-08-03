@@ -25,7 +25,7 @@ config = require './config/serverConfig.json'
 reloadData = (data) ->
   # recieved event from slave
   # removed listener to avoid conflict
-  hub.removeAllListeners('event');
+  hub.removeAllListeners('event')
   winston.info "got message from slave."
   if data.event is 'reload'
     winston.info "reloading clientdb"

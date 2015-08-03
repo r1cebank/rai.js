@@ -7,12 +7,16 @@ module.exports = (winston) ->
   reqChecker = require('../validator/reqChecker.js')()
   inputMapper = require('../mapper/inputMapper.js')()
   sandbox = require('../sandbox/sandbox.js')(winston)
+  Datasource = require '../datasource/datasource.js'
 
   self.buildResponse = (req, res, cache) ->
     deferred = q.defer()
     responseConfig = cache.get req.path
     input_query_map = JSON.parse(responseConfig.input_query_map)
     pre_query_script = responseConfig.pre_query_script
+    url = responseConfig.data_source_url
+    type = responseConfig.data_source_type
+    query = responseConfig.query
     # path is cached
     if responseConfig?
       # check inputmap
@@ -27,7 +31,10 @@ module.exports = (winston) ->
         winston.verbose "Inputmap is: #{JSON.stringify(inputMap)}"
         # getting a promise from sandbox running pre query script
         pre_query_promise = sandbox.runScript inputMap, pre_query_script
+        # create a new datasource
+        datasource = new Datasource type, url
         pre_query_promise.then (result) ->
+          datasource.query result, query
           res.send JSON.stringify result
     else
       res.send "something happened"

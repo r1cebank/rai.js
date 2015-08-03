@@ -43,6 +43,7 @@
     "errorface": "^0.1.2",
     "express": "^4.13.1",
     "hashmap": "^2.0.3",
+    "mongodb": "^2.0.39",
     "q": "^1.4.1",
     "sandbox": "^0.8.6",
     "shortid": "^2.2.2",
