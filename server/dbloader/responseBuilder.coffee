@@ -17,6 +17,8 @@ module.exports = (winston) ->
     url = responseConfig.data_source_url
     type = responseConfig.data_source_type
     query = responseConfig.query
+    pre_query_script_output = JSON.parse(responseConfig.pre_query_script_output)
+    table_collection = responseConfig.table_collection
     # path is cached
     if responseConfig?
       # check inputmap
@@ -34,8 +36,12 @@ module.exports = (winston) ->
         # create a new datasource
         datasource = new Datasource type, url
         pre_query_promise.then (result) ->
-          datasource.query result, query
-          res.send JSON.stringify result
+          query_promise = datasource.query result, pre_query_script_output, query, table_collection
+          query_promise.then (result) ->
+            res.send JSON.stringify result
+          .catch (error) ->
+            res.send JSON.stringify error
+          .done()
     else
       res.send "something happened"
     # res.send req.path + " is working."

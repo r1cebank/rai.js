@@ -7,6 +7,9 @@ module.exports = (gulp, config) ->
     gulpif     = require 'gulp-if'
     sourcemaps = require 'gulp-sourcemaps'
 
+    gulp.src ['server/**/*.json'], base: './server'
+      .pipe gulp.dest config.paths.dest
+
     gulp.src ['server/**/*.coffee'], base: './server'
 
       # Lint

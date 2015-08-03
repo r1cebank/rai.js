@@ -11,12 +11,12 @@
       this.connection = this.ds_connection.connect(this.url);
     }
 
-    DataSource.prototype.query = function(input, query) {
+    DataSource.prototype.query = function(input, output_map, query, collection) {
       return this.connection.then((function(_this) {
-        return function(result) {
-          return _this.ds_query.query(result, input, query);
+        return function(db) {
+          return _this.ds_query.query(db, input, output_map, query, collection);
         };
-      })(this)).done();
+      })(this));
     };
 
     return DataSource;

@@ -13,10 +13,9 @@ class DataSource
     @connection = @ds_connection.connect @url
     # check valid db_type
 
-  query: (input, query) ->
-    @connection.then (result) =>
-      @ds_query.query result, input, query # here error
-    .done()
+  query: (input, output_map, query, collection) ->
+    return @connection.then (db) =>
+      return @ds_query.query db, input, output_map, query, collection
 
 
 
