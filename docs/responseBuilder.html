@@ -20,6 +20,11 @@
             <div id="jump_page">
               
                 
+                <a class="source" href="datasource.html">
+                  datasource.coffee
+                </a>
+              
+                
                 <a class="source" href="dbloader.html">
                   dbloader.coffee
                 </a>
@@ -100,12 +105,18 @@
   reqChecker = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../validator/reqChecker.js'</span>)()
   inputMapper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../mapper/inputMapper.js'</span>)()
   sandbox = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../sandbox/sandbox.js'</span>)(winston)
+  Datasource = <span class="hljs-built_in">require</span> <span class="hljs-string">'../datasource/datasource.js'</span>
 
   self.buildResponse = <span class="hljs-function"><span class="hljs-params">(req, res, cache)</span> -&gt;</span>
     deferred = q.defer()
     responseConfig = cache.get req.path
     input_query_map = JSON.parse(responseConfig.input_query_map)
-    pre_query_script = responseConfig.pre_query_script</pre></div></div>
+    pre_query_script = responseConfig.pre_query_script
+    url = responseConfig.data_source_url
+    type = responseConfig.data_source_type
+    query = responseConfig.query
+    pre_query_script_output = JSON.parse(responseConfig.pre_query_script_output)
+    table_collection = responseConfig.table_collection</pre></div></div>
             
         </li>
         
@@ -171,11 +182,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        pre_query_promise = sandbox.runScript inputMap, pre_query_script
-        pre_query_promise.<span class="hljs-keyword">then</span> (result) -&gt;
-          res.send JSON.stringify result
-    <span class="hljs-keyword">else</span>
-      res.send <span class="hljs-string">"something happened"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>        pre_query_promise = sandbox.runScript inputMap, pre_query_script</pre></div></div>
             
         </li>
         
@@ -185,6 +192,30 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>create a new datasource</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        datasource = <span class="hljs-keyword">new</span> Datasource type, url
+        pre_query_promise.<span class="hljs-keyword">then</span> (result) -&gt;
+          query_promise = datasource.query result, pre_query_script_output, query, table_collection
+          query_promise.<span class="hljs-keyword">then</span> (result) -&gt;
+            res.send JSON.stringify result
+          .<span class="hljs-keyword">catch</span> (error) -&gt;
+            res.send JSON.stringify error
+          .done()
+    <span class="hljs-keyword">else</span>
+      res.send <span class="hljs-string">"something happened"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>res.send req.path + “ is working.”</p>
 

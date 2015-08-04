@@ -18,6 +18,7 @@ module.exports = () ->
     winston.verbose "query type is: #{type}"
     query = query.replace(typeRegex.exec(query)[0],'').trim()
     map = map.outputs
+    input = input[0]
     # test
     paramRegex = new RegExp(queryRegex.query.param)
     valueRegex = new RegExp(queryRegex.query.value)
@@ -29,10 +30,11 @@ module.exports = () ->
       query = query.replace(match0, key)
       break if !paramRegex.test(query)
     # loop to replace values
+    console.log input
     loop
       match = valueRegex.exec(query)[1]
       match0 = valueRegex.exec(query)[0]
-      key = input[0][map[match]]
+      key = input[map[match]]
       query = query.replace(match0, key)
       break if !valueRegex.test(query)
     query = JSON.parse(query)
@@ -44,6 +46,7 @@ module.exports = () ->
         deferred.reject new Error error
       else
         deferred.resolve result
+      db.close()
     return deferred.promise
 
   return self

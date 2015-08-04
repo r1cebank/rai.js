@@ -36,7 +36,7 @@ module.exports = (winston) ->
       # return the promise
     else
       winston.verbose "no script provided, passing data"
-      deferred.resolve input
+      deferred.resolve [input]
     return deferred.promise
 
   return self

@@ -30,7 +30,7 @@
         sandbox.postMessage(JSON.stringify(message));
       } else {
         winston.verbose("no script provided, passing data");
-        deferred.resolve(input);
+        deferred.resolve([input]);
       }
       return deferred.promise;
     };

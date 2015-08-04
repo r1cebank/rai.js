@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>req checker</title>
+  <title>datasource.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -66,6 +66,12 @@
     
     <ul class="sections">
         
+          <li id="title">
+              <div class="annotation">
+                  <h1>datasource.coffee</h1>
+              </div>
+          </li>
+        
         
         
         <li id="section-1">
@@ -74,14 +80,10 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="req-checker">req checker</h1>
-<p> uses the map and user input array to check validity of the request</p>
-<p>#</p>
+              <p>datasource
+defines the datasource for a API instance</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-built_in">module</span>.exports = <span class="hljs-function">-&gt;</span></pre></div></div>
             
         </li>
         
@@ -92,11 +94,18 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>lodash</p>
+              <p>declare datasource constructor</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  _ = <span class="hljs-built_in">require</span> <span class="hljs-string">'lodash'</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataSource</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(db_type, db_url)</span> -&gt;</span>
+    <span class="hljs-property">@datasource</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config/datasource.json'</span>).datasource[db_type]
+    <span class="hljs-property">@type</span> = db_type
+    <span class="hljs-property">@url</span> = db_url
+    <span class="hljs-property">@ds_connection</span> = <span class="hljs-built_in">require</span>(<span class="hljs-property">@datasource</span>.connection)()
+    <span class="hljs-property">@ds_query</span> = <span class="hljs-built_in">require</span>(<span class="hljs-property">@datasource</span>.query)()
+    <span class="hljs-property">@connection</span> = <span class="hljs-property">@ds_connection</span>.connect <span class="hljs-property">@url</span></pre></div></div>
             
         </li>
         
@@ -107,49 +116,18 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>set module to empty object</p>
+              <p>check valid db_type</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  self = { }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>check request query using inputmap
-more data OK, less NO</p>
+            <div class="content"><div class='highlight'><pre>
+  <span class="hljs-attribute">query</span>: <span class="hljs-function"><span class="hljs-params">(input, output_map, query, collection)</span> -&gt;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-property">@connection</span>.<span class="hljs-keyword">then</span> (db) =&gt;
+      <span class="hljs-keyword">return</span> <span class="hljs-property">@ds_query</span>.query db, input, output_map, query, collection
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  self.checkReq = <span class="hljs-function"><span class="hljs-params">(req, map)</span> -&gt;</span>
-    val = <span class="hljs-literal">true</span>
-    atKey = <span class="hljs-string">''</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p>checking if all key specified in map matches the input</p>
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    _.forIn map, <span class="hljs-function"><span class="hljs-params">(value, key)</span> -&gt;</span>
-      <span class="hljs-keyword">if</span> !req[key]
-        val = <span class="hljs-literal">false</span>
-        atKey = key
-    <span class="hljs-keyword">return</span> [val, atKey]
-  <span class="hljs-keyword">return</span> self</pre></div></div>
+
+<span class="hljs-built_in">module</span>.exports = DataSource</pre></div></div>
             
         </li>
         

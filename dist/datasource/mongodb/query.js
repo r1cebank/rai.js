@@ -15,6 +15,7 @@
       winston.verbose("query type is: " + type);
       query = query.replace(typeRegex.exec(query)[0], '').trim();
       map = map.outputs;
+      input = input[0];
       paramRegex = new RegExp(queryRegex.query.param);
       valueRegex = new RegExp(queryRegex.query.value);
       while (true) {
@@ -26,10 +27,11 @@
           break;
         }
       }
+      console.log(input);
       while (true) {
         match = valueRegex.exec(query)[1];
         match0 = valueRegex.exec(query)[0];
-        key = input[0][map[match]];
+        key = input[map[match]];
         query = query.replace(match0, key);
         if (!valueRegex.test(query)) {
           break;
@@ -40,10 +42,11 @@
       collection = db.collection(collection);
       collection[type](query).toArray(function(error, result) {
         if (error) {
-          return deferred.reject(new Error(error));
+          deferred.reject(new Error(error));
         } else {
-          return deferred.resolve(result);
+          deferred.resolve(result);
         }
+        return db.close();
       });
       return deferred.promise;
     };

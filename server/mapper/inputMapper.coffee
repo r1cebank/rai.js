@@ -4,7 +4,8 @@
 #  create the adjusted input mapped with db
 #  data source is input script
 #
-##
+## end inut mapper
+
 module.exports = ->
   # lodash
   _ = require 'lodash'
