@@ -32,6 +32,9 @@ app = express()
 
 serverConfig = clientdbPath: './test/assets'
 
+serverCache = require('../' + path.join config.paths.dest, 'cache', 'cache.js')
+cache = new serverCache()
+
 describe 'routeloader', () ->
   routeloader = { }
   beforeEach () ->
@@ -48,9 +51,9 @@ describe 'routeloader', () ->
 describe 'path cache', () ->
   routeloader = require('../' + path.join config.paths.dest, 'dbloader', './routeloader.js')(winston)
   beforeEach () ->
-    promise = routeloader.loadRouteForFile app, serverConfig, 'test.sqlite3'
+    promise = routeloader.loadRouteForFile app, cache, serverConfig, 'test.sqlite3'
   it 'should cached the path', () ->
-    routeloader.pathCache.count().should.equal(2)
+    cache.pathCache.count().should.equal(2)
   it 'path cache should not be correct', () ->
-    routeloader.pathCache.get('/testApp/admin').should.be.a('object')
-    routeloader.pathCache.get('/testApp/users').should.be.a('object')
+    cache.pathCache.get('/testApp/admin').should.be.a('object')
+    cache.pathCache.get('/testApp/users').should.be.a('object')

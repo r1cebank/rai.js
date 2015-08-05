@@ -26,12 +26,15 @@ app = express()
 # server config
 serverConfig = clientdbPath: './test/assets'
 
+serverCache = require('../' + path.join config.paths.dest, 'cache', 'cache.js')
+cache = new serverCache()
+
 self = { }
 self.testVar = 'OOF'
 
 describe 'loader', () ->
   beforeEach (done) ->
-    require('../' + path.join config.paths.dest, 'dbloader', 'loader.js')(app, serverConfig, winston, () ->
+    require('../' + path.join config.paths.dest, 'dbloader', 'loader.js')(app, cache, serverConfig, winston, () ->
       self.testVar = '00D'
       done()
     )
