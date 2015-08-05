@@ -25,6 +25,10 @@ winston.level = 'verbose'
 # server config
 config = require './config/serverConfig.json'
 
+# server cache
+serverCache = require './cache/cache.js'
+cache = new serverCache()
+
 # use middlewares
 
 reloadData = (data) ->
@@ -32,13 +36,16 @@ reloadData = (data) ->
   # removed listener to avoid conflict
   hub.removeAllListeners('event')
   winston.info "got message from slave."
+  winston.info "clearing servercache"
+  # clear all servercache
+  cache.clearAll()
   if data.event is 'reload'
     winston.info "reloading clientdb"
     winston.error "data reload not tested."
     app._router.stack = app._router.stack.filter (obj) ->
       return obj.route == undefined
     console.log app._router.stack
-    require('./dbloader/loader.js')(app, config, winston, ->
+    require('./dbloader/loader.js')(app, cache, config, winston, ->
       # using api_table to output api table
       require('./fixtures/api_table.js')(app._router.stack, 'express')
       hub.on 'event', reloadData
@@ -50,7 +57,7 @@ reloadData = (data) ->
 
 if cluster.isMaster
   # startup sequence
-  require('./dbloader/loader.js')(app, config, winston, ->
+  require('./dbloader/loader.js')(app, cache, config, winston, ->
     app.use errorface.errorHandler() #using errorface middleware to handle error
     # create the server and output ports
     server = app.listen PORT, ->

@@ -12,7 +12,7 @@ module.exports = (winston) ->
 
   self.buildResponse = (req, res, cache) ->
     deferred = q.defer()
-    responseConfig = cache.get req.path
+    responseConfig = cache.pathCache.get req.path
     input_query_map = JSON.parse(responseConfig.input_query_map)
     pre_query_script = responseConfig.pre_query_script
     url = responseConfig.data_source_url
@@ -35,7 +35,7 @@ module.exports = (winston) ->
         # getting a promise from sandbox running pre query script
         pre_query_promise = sandbox.runScript inputMap, pre_query_script
         # create a new datasource
-        datasource = new Datasource type, url
+        datasource = new Datasource type, url, cache
         pre_query_promise.then (result) ->
           query_promise = datasource.query result, pre_query_script_output, query, table_collection
           query_promise.then (result) ->

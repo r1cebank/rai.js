@@ -18,11 +18,7 @@ module.exports = (winston) ->
   # regex for routes
   routeRegex = /^(\/[A-Za-z]+)$/
 
-  # path cache
-  hashmap = require 'hashmap'
-  self.pathCache = new hashmap()
-
-  self.loadRouteForFile = (app, config, filename) ->
+  self.loadRouteForFile = (app, cache, config, filename) ->
     deferred = q.defer()
     if fileRegex.test filename
       winston.info "loading #{filename}"
@@ -41,13 +37,13 @@ module.exports = (winston) ->
             # path builder
             apiPath = "/" + info.name + route.path
             # local cache
-            self.pathCache.set apiPath, route
+            cache.pathCache.set apiPath, route
             # test request type
             if route.request_type is "get"
               winston.info "[#{filename}]: setting new get route #{apiPath}"
               app.all apiPath, (req, res) ->
                 # middleware function builder start here
-                resBuilder.buildResponse req, res, self.pathCache
+                resBuilder.buildResponse req, res, cache
                 .done()
                 # middleware function ends here
           else

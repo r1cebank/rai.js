@@ -13,4 +13,8 @@ module.exports = () ->
       else
         deferred.resolve db
     return deferred.promise
+  self.buildConnection = (db) ->
+    deferred = q.defer()
+    deferred.resolve db
+    return deferred.promise
   return self

@@ -46,7 +46,8 @@ module.exports = () ->
         deferred.reject new Error error
       else
         deferred.resolve result
-      db.close()
+      # db.close()
+      winston.error "server connection is never closed"
     return deferred.promise
 
   return self
