@@ -45,7 +45,7 @@ module.exports = (winston) ->
             # test request type
             if route.request_type is "get"
               winston.info "[#{filename}]: setting new get route #{apiPath}"
-              app.get apiPath, (req, res) ->
+              app.all apiPath, (req, res) ->
                 # middleware function builder start here
                 resBuilder.buildResponse req, res, self.pathCache
                 .done()

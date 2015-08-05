@@ -4,6 +4,7 @@ q = require 'q'
 module.exports = (winston) ->
   # setting current module to empty object
   self = { }
+  _ = require 'lodash'
   reqChecker = require('../validator/reqChecker.js')()
   inputMapper = require('../mapper/inputMapper.js')()
   sandbox = require('../sandbox/sandbox.js')(winston)
@@ -23,7 +24,7 @@ module.exports = (winston) ->
     if responseConfig?
       # check inputmap
       checkResult =
-        reqChecker.checkReq req.query, input_query_map
+        reqChecker.checkReq _.assign(req.query, req.body), input_query_map
       if !checkResult[0]
         res.send
           error: "Request do not match input_query_map, missing #{checkResult[1]}"

@@ -6,7 +6,12 @@ hub = require 'clusterhub'
 fs = require 'fs'
 # express rest api
 express = require 'express'
+bodyParser = require 'body-parser'
 app = express()
+
+# used body parser
+app.use bodyParser.urlencoded extended: false
+app.use bodyParser.json()
 PORT = 8000
 
 # express middleware
