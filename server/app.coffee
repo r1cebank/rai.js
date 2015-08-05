@@ -55,7 +55,7 @@ reloadData = (data) ->
 
 # set up routes
 
-if cluster.isMaster
+if !cluster.isMaster
   # startup sequence
   require('./dbloader/loader.js')(app, cache, config, winston, ->
     app.use errorface.errorHandler() #using errorface middleware to handle error
@@ -66,12 +66,14 @@ if cluster.isMaster
       winston.info "server is up at http://#{host}:#{port}"
       # using api_table to output api table
       require('./fixtures/api_table.js')(app._router.stack, 'express')
-      # start database watcher
-      winston.info "starting slave process."
-      cluster.fork()
     )
   hub.on 'event', reloadData
 else
+  # start database watcher
+  winston.info "starting master process."
+  cpuCount = require('os').cpus().length
+  for i in [1..cpuCount]
+    cluster.fork()
   winston.info "slave online"
   winston.info "watching clientdb folder: #{config.clientdbPath}"
   fs.watch config.clientdbPath, (event, filename) ->
