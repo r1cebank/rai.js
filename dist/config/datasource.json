@@ -1,9 +1,0 @@
-{
-  "datasource": {
-    "mongodb" : {
-      "connection" : "../datasource/mongodb/connection.js",
-      "query" : "../datasource/mongodb/query.js",
-      "output" : "../datasource/mongodb/output.js"
-    }
-  }
-}
