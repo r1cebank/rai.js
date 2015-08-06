@@ -2,12 +2,12 @@
   "name": "rai",
   "version": "1.1.0",
   "description": "Rai API Hosting",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "gulp && node dist/app.js",
-    "test": "gulp server && mocha",
-    "prestart": "gulp clean",
-    "posttest": "istanbul cover _mocha -- -R spec"
+    "start": "./node_modules/.bin/gulp && node .",
+    "test": "./node_modules/.bin/gulp server && ./node_modules/.bin/mocha",
+    "prestart": "./node_modules/.bin/gulp clean",
+    "posttest": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec"
   },
   "repository": {
     "type": "git",
