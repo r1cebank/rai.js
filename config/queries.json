@@ -1,4 +1,0 @@
-{
-  "getInfo": "select * from info",
-  "getRoutes": "select * from routes"
-}
