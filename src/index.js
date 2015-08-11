@@ -6,13 +6,11 @@
  * @license Apache 2.0
  */
 
-import Fs          from 'fs';
-import Winston     from 'winston';
-import Express     from 'express';
-import Cluster     from 'cluster';
-import ClusterHub  from 'clusterhub';
-import Errorface   from 'errorface';
-import BodyParser  from 'body-parser';
+import Express      from 'express';
+import Errorface    from 'errorface';
+import BodyParser   from 'body-parser';
+import AppSingleton from './util/appsingleton';
+import Bootstrap    from './util/bootstrap';
 
 /*!
  * Enable sourcemap support (if present)
@@ -21,18 +19,20 @@ let sourcemaps = require.resolve('source-map-support');
 if (sourcemaps) { require(sourcemaps).install(); }
 
 /*!
- * Setup winston logging.
- */
-Winston.cli();
-Winston.level = 'verbose';
-
-/*!
  * Root express application.
  */
 let app = Express();
 
 /*!
+ * Bootstrap the application, setting the proper shared variables in AppSingleton
+ */
+Bootstrap();
+
+console.log("The bootstrap status is: ", AppSingleton.getInstance().bootstrapStatus);
+
+/*!
  * Use global express middleware here.
  */
-app.use(BodyParser.json());
-app.use(BodyParser.urlencded({ extended: false }));
+app.use(BodyParser.json()); //Using bodyparser for POST requests
+app.use(BodyParser.urlencoded({ extended: false }));
+app.use(Errorface.errorHandler());  //Using errorface for detailed error handling, REMOVE in production.

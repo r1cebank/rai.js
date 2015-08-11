@@ -31,8 +31,13 @@
   },
   "dependencies": {
     "bluebird": "^2.9.34",
+    "body-parser": "^1.13.3",
+    "errorface": "^0.1.2",
+    "express": "^4.13.3",
     "localeval": "^15.2.3",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "source-map-support": "^0.3.2",
+    "winston": "^1.0.1"
   },
   "directories": {
     "doc": "docs",
