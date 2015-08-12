@@ -7,7 +7,6 @@
     "start": "./node_modules/.bin/gulp && node .",
     "test": "./node_modules/.bin/gulp server && ./node_modules/.bin/mocha",
     "postinstall": "./node_modules/.bin/gulp",
-    "prestart": "./node_modules/.bin/gulp clean",
     "posttest": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec"
   },
   "repository": {
@@ -34,8 +33,11 @@
     "body-parser": "^1.13.3",
     "errorface": "^0.1.2",
     "express": "^4.13.3",
+    "hashmap": "^2.0.3",
     "localeval": "^15.2.3",
     "lodash": "^3.10.1",
+    "mysql": "^2.8.0",
+    "node-cache": "^3.0.0",
     "source-map-support": "^0.3.2",
     "winston": "^1.0.1"
   },
