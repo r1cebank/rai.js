@@ -6,6 +6,9 @@
  * @license Apache 2.0
  */
 
+require("babel/polyfill"); //   Needed for some babel functions, remove after ES6
+console.warn("Remember to remove this after ES6.");
+
 import Express      from 'express';
 import Errorface    from 'errorface';
 import BodyParser   from 'body-parser';
@@ -28,7 +31,7 @@ let app = Express();
  */
 Bootstrap();
 
-console.log("The bootstrap status is: ", AppSingleton.getInstance().bootstrapStatus);
+console.error("You should not see this on production!");
 
 /*!
  * Use global express middleware here.

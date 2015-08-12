@@ -7,7 +7,10 @@ import Winston          from 'winston';
 import Hashmap          from 'hashmap';
 import Cache            from 'node-cache';
 import MySQL            from 'mysql';
-import DB               from '../config/db.js'
+import DB               from '../config/db.js';
+import Promise          from 'bluebird';
+import Queries          from '../config/queries.js';
+
 
 function bootstrap () {
 
@@ -23,8 +26,11 @@ function bootstrap () {
         ]
     });
 
-    //  Path cache is used to cache API route definitions from master DB
-    sharedInstance.pathCache = new Hashmap();
+    //  Path is used to cache API route definitions from master DB
+    sharedInstance.path = new Hashmap();
+
+    //  App settings is used to store specific application setting from master DB
+    sharedInstance.appSettings = new Hashmap();
 
     /*!
      *  dsCache is also called connection cache or datasource cache, it is used to store the connection between
@@ -36,8 +42,23 @@ function bootstrap () {
     sharedInstance.masterDB = MySQL.createConnection(DB.masterDB);
     sharedInstance.masterDB.connect();
 
-    //  Set the bootstrap status for error checking
-    sharedInstance.bootstrapStatus = "SUCCESS";
+    //  Get the promisified version of the mysql query
+    sharedInstance.masterQuery = Promise.promisify(sharedInstance.masterDB.query, sharedInstance.masterDB);
+
+    //  Now we need to query the masterDB for the information we need and store them as promises
+    sharedInstance.settingsKVPromise    = sharedInstance.masterQuery(Queries.masterDB.settings);
+    sharedInstance.routesPromise        = sharedInstance.masterQuery(Queries.masterDB.routes);
+    sharedInstance.appsPromise          = sharedInstance.masterQuery(Queries.masterDB.apps);
+    sharedInstance.appSettings          = sharedInstance.masterQuery(Queries.masterDB.appSettings);
+    //{
+    //    var settingKVPromise = sharedInstance.masterQuery(Queries.masterDB.settings);
+    //    settingKVPromise.spread(function (rows, fields, error) {
+    //        if(error) sharedInstance.error = error;
+    //        sharedInstance.settingsKV = { };
+    //        for(let row of rows) sharedInstance.settingsKV[row.key] = {value: row.value, type: row.type};
+    //    });
+    //}
+
 }
 
 module.exports = bootstrap;
