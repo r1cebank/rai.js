@@ -29,9 +29,6 @@ function bootstrap () {
     //  Path is used to cache API route definitions from master DB
     sharedInstance.path = new Hashmap();
 
-    //  App settings is used to store specific application setting from master DB
-    sharedInstance.appSettings = new Hashmap();
-
     /*!
      *  dsCache is also called connection cache or datasource cache, it is used to store the connection between
      *  datasource and the server itself
@@ -55,15 +52,6 @@ function bootstrap () {
         }
     );
     sharedInstance.L.info("Bootstrap complete!");
-    //{
-    //    var settingKVPromise = sharedInstance.masterQuery(Queries.masterDB.settings);
-    //    settingKVPromise.spread(function (rows, fields, error) {
-    //        if(error) sharedInstance.error = error;
-    //        sharedInstance.settingsKV = { };
-    //        for(let row of rows) sharedInstance.settingsKV[row.key] = {value: row.value, type: row.type};
-    //    });
-    //}
-
 }
 
 module.exports = bootstrap;

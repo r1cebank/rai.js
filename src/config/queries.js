@@ -5,9 +5,9 @@
 var config = {
     masterDB: {
         settings    :   "select system.key, system.value, system.type from system;",
-        routes      :   "select routes.*, apps.name from apps join routes",
+        routes      :   "select apps.name, routes.* from apps join routes",
         apps        :   "select * from apps",
-        appSettings :   "select * from app_setting"
+        appSettings :   "select apps.name, app_setting.* from app_setting join apps"
     }
 };
 

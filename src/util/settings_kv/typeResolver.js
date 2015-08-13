@@ -7,7 +7,7 @@
  *  resolveType will be used to convert all known type to their appropriate type.
  */
 
-import Types        from './types'
+import Types        from './types';
 
 function resolveType(value, type) {
 

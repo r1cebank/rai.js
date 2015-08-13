@@ -35,6 +35,11 @@ if (sourcemaps) { require(sourcemaps).install(); }
 let app = Express();
 
 /*!
+ *  Pass the express app instance to appsingleton
+ */
+sharedInstance.app = app;
+
+/*!
  *  Use global express middleware here.
  */
 app.use(BodyParser.json()); //  Using bodyparser for POST requests

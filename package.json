@@ -14,7 +14,7 @@
     "url": "git@github.com:R1cebank/rai.git"
   },
   "author": "Siyuan Gao",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.21",
     "babel-core": "^5.8.21",
@@ -31,6 +31,7 @@
   "dependencies": {
     "bluebird": "^2.9.34",
     "body-parser": "^1.13.3",
+    "cli-table": "^0.3.1",
     "errorface": "^0.1.2",
     "express": "^4.13.3",
     "hashmap": "^2.0.3",

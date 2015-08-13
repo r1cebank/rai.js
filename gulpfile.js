@@ -22,16 +22,17 @@ gulp.task('default', ['build']);
 
 /*!
  * Builds script files.
+ * Ignore fixtures
  */
 gulp.task('build', function() {
 
   gulp.src(['src/**/*.js'], { base: 'src' })
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      auxiliaryCommentBefore: 'istanbul ignore next'
-    }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('lib'));
+        .pipe(sourcemaps.init())
+        .pipe(babel({
+            auxiliaryCommentBefore: 'istanbul ignore next'
+        }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('lib'));
 
 });
 
@@ -41,31 +42,31 @@ gulp.task('build', function() {
 gulp.task('lint', function() {
 
   gulp.src(['src/**/*.js', 'test/**/*.js'])
-    .pipe(jshint({
-      lookup:    false,
-      esnext:    true,
-      curly:     true,
-      eqeqeq:    true,
-      freeze:    true,
-      funcscope: true,
-      undef:     true,
-      predef: [
-        '__dirname',
-        'require',
-        'process',
-        'exports',
-        'module',
-        'console'
-      ]
-    }))
-    .pipe(jscs({
-      esnext:  true,
-      requireCamelCaseOrUpperCaseIdentifiers: 'ignoreProperties'
-    }))
-    .on('error', function() { })
-    .pipe(stylish.combineWithHintResults())
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'));
+        .pipe(jshint({
+              lookup:    false,
+              esnext:    true,
+              curly:     true,
+              eqeqeq:    true,
+              freeze:    true,
+              funcscope: true,
+              undef:     true,
+              predef: [
+                    '__dirname',
+                    'require',
+                    'process',
+                    'exports',
+                    'module',
+                    'console'
+              ]
+        }))
+        .pipe(jscs({
+          esnext:  true,
+          requireCamelCaseOrUpperCaseIdentifiers: 'ignoreProperties'
+        }))
+        .on('error', function() { })
+        .pipe(stylish.combineWithHintResults())
+        .pipe(jshint.reporter('jshint-stylish'))
+        .pipe(jshint.reporter('fail'));
 
 });
 

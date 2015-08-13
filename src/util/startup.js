@@ -9,7 +9,11 @@
 
 import AppSingleton     from './appsingleton';
 import Promise          from 'bluebird';
-import TypeResolver     from './settings_kv/typeResolver'
+import TypeResolver     from './settings_kv/typeResolver';
+import SettingsKVLoader from '../loader/settings_kv';
+import AppsLoader       from '../loader/apps';
+import AppSettingLoader from '../loader/app_settings';
+import Routes           from '../loader/routes';
 
 function startup() {
 
@@ -19,12 +23,24 @@ function startup() {
         sharedInstance.dbQueries.then(function (result) {
 
             //  This loads the settings KV into AppSingleton
-            sharedInstance.settingsKV = { };
-            for(let row of result.settingsKV[0]) {
-                sharedInstance.settingsKV[row.key] = TypeResolver.resolveType(row.value, row.type);
+            SettingsKVLoader.load(result.settingsKV[0]);
+
+            //  Now loads all the apps defined in the system.
+            AppsLoader.load(result.apps[0]);
+
+            //  This loads all the app settings to the system.
+            AppSettingLoader.load(result.appSettings[0]);
+
+            /*!
+             *  The most important part of this app, setting up the routes for this application
+             */
+            Routes.load(result.routes[0]);
+
+            if(result.settingsKV[2] || result.apps[2] || result.appSettings[2] || result.routes[2]) {
+                reject(new Error('Error when executing dbQueries'));
+            } else {
+                resolve();
             }
-            resolve();
-            if(1!=1) reject(); //   TODO: Remove this when have real reject, now suppress warnings.
         });
     });
 }
