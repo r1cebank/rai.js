@@ -38,6 +38,7 @@
     "lodash": "^3.10.1",
     "mysql": "^2.8.0",
     "node-cache": "^3.0.0",
+    "node-info": "^1.0.2",
     "source-map-support": "^0.3.2",
     "winston": "^1.0.1"
   },

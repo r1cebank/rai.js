@@ -14,28 +14,49 @@ import Errorface    from 'errorface';
 import BodyParser   from 'body-parser';
 import AppSingleton from './util/appsingleton';
 import Bootstrap    from './util/bootstrap';
+import Startup      from './util/startup';
+import NodeInfo     from 'node-info';
+
+//  AppSingleton Instance
+var sharedInstance = AppSingleton.getInstance();
+
+//  Grab the port number or get from deploy environment
+let PORT = process.env.PORT || 3939;
 
 /*!
- * Enable sourcemap support (if present)
+ *  Enable sourcemap support (if present)
  */
 let sourcemaps = require.resolve('source-map-support');
 if (sourcemaps) { require(sourcemaps).install(); }
 
 /*!
- * Root express application.
+ *  Root express application.
  */
 let app = Express();
 
 /*!
- * Bootstrap the application, setting the proper shared variables in AppSingleton
+ *  Use global express middleware here.
+ */
+app.use(BodyParser.json()); //  Using bodyparser for POST requests
+app.use(BodyParser.urlencoded({ extended: false }));
+app.use(Errorface.errorHandler());  //  Using errorface for detailed error handling, REMOVE in production.
+app.use(NodeInfo()); // Using NodeInfo to display server information
+
+/*!
+ *  Bootstrap the application, setting the proper shared variables in AppSingleton
  */
 Bootstrap();
 
-console.error("You should not see this on production!");
 
 /*!
- * Use global express middleware here.
+ *  Startup the app, setting the appropriate routes and settings.
  */
-app.use(BodyParser.json()); //Using bodyparser for POST requests
-app.use(BodyParser.urlencoded({ extended: false }));
-app.use(Errorface.errorHandler());  //Using errorface for detailed error handling, REMOVE in production.
+Startup().then(function () {
+    var server = app.listen(PORT, function () {
+        var host = server.address().address;
+        var port = server.address().port;
+        sharedInstance.L.info(`Server running at: ${host}:${port}`);
+    });
+});
+
+

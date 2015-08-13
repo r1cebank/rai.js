@@ -46,10 +46,15 @@ function bootstrap () {
     sharedInstance.masterQuery = Promise.promisify(sharedInstance.masterDB.query, sharedInstance.masterDB);
 
     //  Now we need to query the masterDB for the information we need and store them as promises
-    sharedInstance.settingsKVPromise    = sharedInstance.masterQuery(Queries.masterDB.settings);
-    sharedInstance.routesPromise        = sharedInstance.masterQuery(Queries.masterDB.routes);
-    sharedInstance.appsPromise          = sharedInstance.masterQuery(Queries.masterDB.apps);
-    sharedInstance.appSettings          = sharedInstance.masterQuery(Queries.masterDB.appSettings);
+    sharedInstance.dbQueries = Promise.props(
+        {
+            settingsKV  : sharedInstance.masterQuery(Queries.masterDB.settings),
+            routes      : sharedInstance.masterQuery(Queries.masterDB.routes),
+            apps        : sharedInstance.masterQuery(Queries.masterDB.apps),
+            appSettings : sharedInstance.masterQuery(Queries.masterDB.appSettings)
+        }
+    );
+    sharedInstance.L.info("Bootstrap complete!");
     //{
     //    var settingKVPromise = sharedInstance.masterQuery(Queries.masterDB.settings);
     //    settingKVPromise.spread(function (rows, fields, error) {
