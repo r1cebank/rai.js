@@ -7,9 +7,10 @@ import Winston          from 'winston';
 import Hashmap          from 'hashmap';
 import Cache            from 'node-cache';
 import MySQL            from 'mysql';
-import DB               from '../config/db.js';
+import DB               from '../config/db';
 import Promise          from 'bluebird';
-import Queries          from '../config/queries.js';
+import Queries          from '../config/queries';
+import Chainable        from '../pipeline/chainable';
 
 
 function bootstrap () {
@@ -51,6 +52,10 @@ function bootstrap () {
             appSettings : sharedInstance.masterQuery(Queries.masterDB.appSettings)
         }
     );
+
+    //  Load chainable modules and set the object
+    //  sharedInstance.chainable = new Chainable(); //TODO disabled this due to thread unsafe.
+
     sharedInstance.L.info("Bootstrap complete!");
 }
 
