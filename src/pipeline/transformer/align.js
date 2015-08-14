@@ -22,8 +22,9 @@ function _align(output_map) {
         this.promise = new Promise(function (resolve, reject) {
             _promise.then(function (result) {
                 var output = { };
+                output[0] = result;     //  For psudo route passthrough
                 for(var key of JSON.parse(output_map)) {
-                    output[key] = result[key];
+                    output[JSON.parse(output_map).indexOf(key) + 1] = result[key];
                 }
                 resolve(output);
             }).catch(function (e) {
