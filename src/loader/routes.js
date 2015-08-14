@@ -4,6 +4,7 @@
 
 import AppSingleton     from '../util/appsingleton';
 import TypeResolver     from '../util/settings_kv/typeResolver';
+import Respond          from '../util/respond';
 
 function load(result) {
 
@@ -23,7 +24,7 @@ function load(result) {
             //  Set the express route
             sharedInstance.L.info(`Setting route for: /${row.name}${row.path}`);
             sharedInstance.app.all(`/${row.name}${row.path}`, function (req, res) {
-                res.send(sharedInstance.path.get(req.path));
+                Respond.respond(req, res);
             });
         } else if (sharedInstance.settingsKV.REGEX_PSEUDO_PATH.test(row.path)) {
             sharedInstance.L.info(`Setting pseudo route for: /${row.name}${row.path}`);

@@ -52,10 +52,10 @@ app.use(NodeInfo()); // Using NodeInfo to display server information
  */
 Bootstrap();
 
-
 /*!
  *  Startup the app, setting the appropriate routes and settings.
  */
+
 Startup().then(function () {
     var server = app.listen(PORT, function () {
         var host = server.address().address;
