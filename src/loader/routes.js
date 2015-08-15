@@ -8,6 +8,9 @@ import Respond          from '../util/respond';
 
 function load(result) {
 
+    //  Log TAG
+    var TAG = "load:route";
+
     //  This instance is shared across the entire app life-cycle
     var sharedInstance = AppSingleton.getInstance();
 
@@ -22,12 +25,12 @@ function load(result) {
         //  Check path type
         if(sharedInstance.settingsKV.REGEX_API_PATH.test(row.path)) {
             //  Set the express route
-            sharedInstance.L.info(`Setting route for: /${row.name}${row.path}`);
+            sharedInstance.L.info(TAG, `Setting route for: /${row.name}${row.path}`);
             sharedInstance.app.all(`/${row.name}${row.path}`, function (req, res) {
                 Respond.respond(req, res);
             });
         } else if (sharedInstance.settingsKV.REGEX_PSEUDO_PATH.test(row.path)) {
-            sharedInstance.L.info(`Setting pseudo route for: /${row.name}${row.path}`);
+            sharedInstance.L.info(TAG, `Setting pseudo route for: /${row.name}${row.path}`);
         } else {
             //  Path failed test, skipping..
         }

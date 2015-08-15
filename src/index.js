@@ -17,6 +17,9 @@ import Bootstrap    from './util/bootstrap';
 import Startup      from './util/startup';
 import NodeInfo     from 'node-info';
 
+//  Log TAG
+var TAG = "index";
+
 //  AppSingleton Instance
 var sharedInstance = AppSingleton.getInstance();
 
@@ -60,7 +63,7 @@ Startup().then(function () {
     var server = app.listen(PORT, function () {
         var host = server.address().address;
         var port = server.address().port;
-        sharedInstance.L.info(`Server running at: ${host}:${port}`);
+        sharedInstance.L.info(TAG, `Server running at: ${host}:${port}`);
     });
 });
 

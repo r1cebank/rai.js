@@ -14,13 +14,16 @@ import AppSingleton     from '../util/appsingleton';
 class Chainable {
     constructor() {
 
+        //  Log tag
+        this.TAG = "chainable";
+
         //  Set default values
         this.error      = { };
         this.input      = { };
         this.output     = { };
 
         //  Filename regex
-        var regex = /^([a-z0-9]+).js$/;
+        var regex = /^([a-z0-9_]+).js$/;
 
         //  Loading all transformer modules
         var filenames = require("fs").readdirSync(require("path").join(__dirname,'transformer'));
@@ -28,7 +31,7 @@ class Chainable {
         //  Loop through the files and load them into the chainable class.
         for(var file of filenames) {
             if(regex.test(file)) {
-                AppSingleton.getInstance().L.info(`Loading module: ${file}`);
+                AppSingleton.getInstance().L.info(this.TAG, `Loading module: ${file}`);
                 _.assign(this, require(`./transformer/${regex.exec(file)[1]}`));
             }
         }

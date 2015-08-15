@@ -15,17 +15,25 @@ import Chainable        from '../pipeline/chainable';
 
 function bootstrap () {
 
+    //  Log tag
+    var TAG = "bootstrap";
+
     //  This instance is shared across the entire app life-cycle
     var sharedInstance = AppSingleton.getInstance();
 
     //  Creating a new shared instance for winston logger
-    sharedInstance.L = new (Winston.Logger)({
+    sharedInstance.Log = new (Winston.Logger)({
         transports: [
             new (Winston.transports.Console)({
                 colorize: 'all'
             })
         ]
     });
+    sharedInstance.L = {
+        info    :   (tag, log) => {sharedInstance.Log.info(`[${tag}] : ${log}`);},
+        error   :   (tag, log) => {sharedInstance.Log.error(`[${tag}] : ${log}`);},
+        warn    :   (tag, log) => {sharedInstance.Log.warn(`[${tag}] : ${log}`);}
+    };
 
     //  Path is used to cache API route definitions from master DB
     sharedInstance.path = new Hashmap();
@@ -56,7 +64,7 @@ function bootstrap () {
     //  Load chainable modules and set the object
     //  sharedInstance.chainable = new Chainable(); //TODO disabled this due to thread unsafe.
 
-    sharedInstance.L.info("Bootstrap complete!");
+    sharedInstance.L.info(TAG, "Bootstrap complete!");
 }
 
 module.exports = bootstrap;

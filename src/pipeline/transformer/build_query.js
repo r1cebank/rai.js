@@ -3,21 +3,20 @@
  */
 
 /*!
- *  After the script, we need to align output using pre_query_output to map the result into array for easy processing
+ *  After the output is aligned, we need to build the final query before we pass it to the db
  */
 
 import _            from 'lodash';
 import Promise      from 'bluebird';
+import Datasource   from '../../datasources/datasource';
 
-/*!
- *  I am quite shamed of myself since most of the code is copied from resolve.js
- *  --I think I felt better about myself now--
- */
 
-function _align(output_map) {
+function _build_query(dsType) {
 
     //  Log TAG
-    var TAG = "align";
+    var TAG = "build_query";
+
+    var datasource = new Datasource(dsType);
 
     //  Call the callback with current promise
     var _promise = this.promise; //  New promise to return if we have a pending promise
@@ -25,11 +24,7 @@ function _align(output_map) {
         var self = this;    //  Avoid this to become invalid
         this.promise = new Promise(function (resolve, reject) {
             _promise.then(function (result) {
-                var output = { };
-                output[0] = result;     //  For psudo route passthrough
-                for(var key of JSON.parse(output_map)) {
-                    output[JSON.parse(output_map).indexOf(key) + 1] = result[key];
-                }
+                //  Process the aligned input and query it
                 resolve(output);
             }).catch(function (e) {
                 reject(e);
@@ -37,12 +32,9 @@ function _align(output_map) {
         });
     } else {
         AppSingleton.getInstance().L.info(TAG, "We have a no promise!");
-        this.output = { };
-        for(var key of output_map) {
-            this.output[key] = result[key];
-        }
+        //  Process the input now since we have no primise to wait for
     }
     return this;   //  Resolve should be the last function in the chain
 }
 
-export default {align: _align};
+export default {buildQueryFor: _build_query};

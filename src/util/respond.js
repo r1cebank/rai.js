@@ -19,6 +19,7 @@ function respond(req, res) {
         chain.input(req)
             .execute(route.pre_query_script)
             .align(route.pre_query_output)
+            .buildQueryFor(route.data_source)
             .resolve(function () {
                 res.send(chain.output);
             });

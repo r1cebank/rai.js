@@ -3,7 +3,7 @@
  */
 
 /*!
- *  Not really a transformer, this just spits out error
+ *  Not really a transformer, this just stores the input and sets output
  */
 
 import _            from 'lodash';
