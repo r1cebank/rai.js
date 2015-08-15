@@ -14,6 +14,7 @@ var jshint         = require('gulp-jshint');
 var stylish        = require('gulp-jscs-stylish');
 var istanbul       = require('gulp-istanbul');
 var sourcemaps     = require('gulp-sourcemaps');
+var ftp            = require('vinyl-ftp');
 
 /*!
  * Aliases
@@ -35,6 +36,7 @@ gulp.task('build', function() {
         .pipe(gulp.dest('lib'));
 
 });
+
 
 /*!
  * Masochistic code quality check.

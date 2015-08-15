@@ -10,7 +10,6 @@ require("babel/polyfill"); //   Needed for some babel functions, remove after ES
 console.warn("Remember to remove this after ES6.");
 
 import Express      from 'express';
-import Errorface    from 'errorface';
 import BodyParser   from 'body-parser';
 import AppSingleton from './util/appsingleton';
 import Bootstrap    from './util/bootstrap';
@@ -47,7 +46,6 @@ sharedInstance.app = app;
  */
 app.use(BodyParser.json()); //  Using bodyparser for POST requests
 app.use(BodyParser.urlencoded({ extended: false }));
-app.use(Errorface.errorHandler());  //  Using errorface for detailed error handling, REMOVE in production.
 app.use(NodeInfo()); // Using NodeInfo to display server information
 
 /*!

@@ -6,7 +6,6 @@
   "scripts": {
     "start": "./node_modules/.bin/gulp && node .",
     "test": "./node_modules/.bin/gulp server && ./node_modules/.bin/mocha",
-    "postinstall": "./node_modules/.bin/gulp",
     "posttest": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec"
   },
   "repository": {
@@ -26,13 +25,13 @@
     "gulp-jshint": "^1.11.2",
     "gulp-mocha": "^2.1.3",
     "gulp-sourcemaps": "^1.5.2",
-    "jshint-stylish": "^2.0.1"
+    "jshint-stylish": "^2.0.1",
+    "vinyl-ftp": "^0.4.4"
   },
   "dependencies": {
     "bluebird": "^2.9.34",
     "body-parser": "^1.13.3",
     "cli-table": "^0.3.1",
-    "errorface": "^0.1.2",
     "express": "^4.13.3",
     "hashmap": "^2.0.3",
     "localeval": "^15.2.3",

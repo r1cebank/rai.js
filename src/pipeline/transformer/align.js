@@ -22,7 +22,6 @@ function _align(output_map) {
     //  Call the callback with current promise
     var _promise = this.promise; //  New promise to return if we have a pending promise
     if(this.promise instanceof Promise) {
-        var self = this;    //  Avoid this to become invalid
         this.promise = new Promise(function (resolve, reject) {
             _promise.then(function (result) {
                 var output = { };

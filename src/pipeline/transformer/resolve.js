@@ -32,7 +32,7 @@ function _resolve(callback) {
                     this.error = e; //  Huston, we have a problem
                     this.output = _.assign({error: e.toString()}, this.input);
                     callback();   //  Better chaining
-                }).done();
+                });
         } else if(this.promise.isFulfilled()) { //  We have a resolved promise, get the value from it and resolve that
             AppSingleton.getInstance().L.info(TAG, "We have a resolved promise!");
             this.output = _.assign({ }, this.promise.value());

@@ -28,13 +28,19 @@ function _query(url, table) {
                 //  Connect the db, query and return the data
                 this.datasource.connect(url).then((db) => {
 
+                    if(!sharedInstance.dsCache.get(url)) {
+                        //  Updates the cache
+                        sharedInstance.dsCache.set(url, db);
+                        sharedInstance.L.info(TAG, "restoring db connection from cache");
+                    }
+
                     //  DB is connected
                     sharedInstance.L.info(TAG, "database is connected");
                     this.datasource.db = db;
                     this.datasource.query(this.output.query, this.setting, table).then((results) => {
                         resolve(results);
-                    });
-                });
+                    }).catch(function (e) {reject(e);});
+                }).catch(function (e) {reject(e);});
             }).catch(function (e) {
                 reject(e);
             });
