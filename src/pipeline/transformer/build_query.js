@@ -21,10 +21,10 @@ function _build_query(dsType) {
     //  Call the callback with current promise
     var _promise = this.promise; //  New promise to return if we have a pending promise
     if(this.promise instanceof Promise) {
-        var self = this;    //  Avoid this to become invalid
-        this.promise = new Promise(function (resolve, reject) {
-            _promise.then(function (result) {
+        this.promise = new Promise((resolve, reject) => {
+            _promise.then((result) => {
                 //  Process the aligned input and query it
+                var output = _.assign({ }, {beforeBuildQuery: this.output});
                 resolve(output);
             }).catch(function (e) {
                 reject(e);

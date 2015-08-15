@@ -20,16 +20,17 @@ function _resolve(callback) {
         if(!this.promise.isFulfilled()) {   //  Good, the world is awesome
             AppSingleton.getInstance().L.warn(TAG, "We have a unresolved promise!");
             AppSingleton.getInstance().L.warn(TAG, "Waiting for promise to finish");
-            var self = this;    //  Avoid this to be invalid
-            this.promise.then(function (result) {
+
+            //  Wait for the promise
+            this.promise.then((result) => {
                 AppSingleton.getInstance().L.info(TAG, "We have a resolved promise!");
-                self.output = _.assign({ }, result);
+                this.output = _.assign({ }, result);
                 callback();   //  Better chaining
             })
-                .catch(function (e) {
+                .catch((e) => {
                     AppSingleton.getInstance().L.error(TAG, "We have a rejected promise!");
-                    self.error = e; //  Huston, we have a problem
-                    self.output = _.assign({error: e.toString()}, self.input);
+                    this.error = e; //  Huston, we have a problem
+                    this.output = _.assign({error: e.toString()}, this.input);
                     callback();   //  Better chaining
                 }).done();
         } else if(this.promise.isFulfilled()) { //  We have a resolved promise, get the value from it and resolve that
