@@ -34,7 +34,6 @@ function _execute(script) {
                 } else {
                     //  I have no choose to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
                     this.promise = exec(this.output, script).then((result) => {
-                        console.log(result);
                         resolve(result);
                     }).catch((e) => {reject(e);});
                 }
