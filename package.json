@@ -37,6 +37,7 @@
     "hashmap": "^2.0.3",
     "localeval": "^15.2.3",
     "lodash": "^3.10.1",
+    "mongodb": "^2.0.41",
     "mysql": "^2.8.0",
     "node-cache": "^3.0.0",
     "node-info": "^1.0.2",

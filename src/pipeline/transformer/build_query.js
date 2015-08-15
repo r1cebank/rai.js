@@ -11,20 +11,22 @@ import Promise      from 'bluebird';
 import Datasource   from '../../datasources/datasource';
 
 
-function _build_query(dsType) {
+function _build_query(dsType, outputs, rawQuery) {
 
     //  Log TAG
     var TAG = "build_query";
 
-    var datasource = new Datasource(dsType);
+    this.datasource = new Datasource(dsType);
 
     //  Call the callback with current promise
     var _promise = this.promise; //  New promise to return if we have a pending promise
     if(this.promise instanceof Promise) {
         this.promise = new Promise((resolve, reject) => {
             _promise.then((result) => {
+                this.output = result;
                 //  Process the aligned input and query it
-                var output = _.assign({ }, {beforeBuildQuery: this.output});
+                var query = this.datasource.buildQuery(_.assign({ }, this.output), JSON.parse(outputs), rawQuery, this.setting);
+                var output = _.assign({query}, {beforeBuildQuery: this.output});
                 resolve(output);
             }).catch(function (e) {
                 reject(e);
@@ -32,9 +34,12 @@ function _build_query(dsType) {
         });
     } else {
         AppSingleton.getInstance().L.info(TAG, "We have a no promise!");
-        //  Process the input now since we have no primise to wait for
+        //  Process the aligned input and query it
+        var query = this.datasource.buildQuery(_.assign({ }, this.output), JSON.parse(outputs), rawQuery, this.setting);
+        this.output = _.assign({query}, {beforeBuildQuery: this.output});
+        //  Process the input now since we have no promise to wait for
     }
-    return this;   //  Resolve should be the last function in the chain
+    return this;
 }
 
 export default {buildQueryFor: _build_query};

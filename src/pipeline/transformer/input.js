@@ -9,9 +9,10 @@
 import _            from 'lodash';
 import Promise      from 'bluebird';
 
-function _input(req) {
+function _input(req, setting) {
 
     //  Set the request and route
+    this.setting = _.assign({ }, setting);
     this.input = _.assign(req.query, req.body); //  Made a copy of the request
     this.output = _.assign(req.query, req.body);
     return this;

@@ -11,15 +11,17 @@ import AppSingleton     from '../util/appsingleton';
 
 function respond(req, res) {
 
-    var sharedInstance = AppSingleton.getInstance();    //  Grab the shared instance contains all the routes
-    var route = sharedInstance.path.get(req.path);      //  You shall have a instance!
+    var sharedInstance = AppSingleton.getInstance();        //  Grab the shared instance contains all the routes
+    var route = sharedInstance.path.get(req.path);          //  You shall have a instance!
+    var setting = sharedInstance.appSettings[route.name];   //  Grab the app settings
 
     //  Start a new chainable instance
     var chain = new Chainable();
-        chain.input(req)
+        chain.input(req, setting)
             .execute(route.pre_query_script)
             .align(route.pre_query_output)
-            .buildQueryFor(route.data_source)
+            .buildQueryFor(route.data_source, route.pre_query_output, route.query)
+            .query(route.data_source_url, route.table_collection)
             .resolve(function () {
                 res.send(chain.output);
             });
