@@ -24,22 +24,24 @@ function _resolve(callback) {
             //  Wait for the promise
             this.promise.then((result) => {
                 AppSingleton.getInstance().L.info(TAG, "We have a resolved promise!");
-                this.output = _.assign({ }, result);
+                this.output = _.clone(result);
                 callback();   //  Better chaining
             })
                 .catch((e) => {
                     AppSingleton.getInstance().L.error(TAG, "We have a rejected promise!");
                     this.error = e; //  Huston, we have a problem
-                    this.output = _.assign({error: e.toString()}, this.input);
+                    this.output.error = e.toString();
+                    this.output = _.clone(this.input);
                     callback();   //  Better chaining
                 });
         } else if(this.promise.isFulfilled()) { //  We have a resolved promise, get the value from it and resolve that
             AppSingleton.getInstance().L.info(TAG, "We have a resolved promise!");
-            this.output = _.assign({ }, this.promise.value());
+            this.output = _.clone(this.promise.value());
             callback(this.output);   //  Better chaining
         } else if(this.promise.isRejected()) {  //  We have a rejected promise, get the error, add to input and error
             AppSingleton.getInstance().L.error(TAG, "We have a rejected promise!");
-            this.output = _.assign({error: this.promise.reason()}, this.input);
+            this.output.error = this.promise.reason();
+            this.output = _.clone(this.input);
             this.error = this.promise.reason();
             callback();   //  Better chaining
         }

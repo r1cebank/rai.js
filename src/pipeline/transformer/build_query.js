@@ -25,8 +25,9 @@ function _build_query(dsType, outputs, rawQuery) {
             _promise.then((result) => {
                 this.output = result;
                 //  Process the aligned input and query it
-                var query = this.datasource.buildQuery(_.assign({ }, this.output), JSON.parse(outputs), rawQuery, this.setting);
-                var output = _.assign({query}, {beforeBuildQuery: this.output});
+                var query = this.datasource.buildQuery(_.clone(this.output), JSON.parse(outputs), rawQuery, this.setting);
+                var output = _.clone({query});
+                output.beforeBuildQuery = this.output;
                 resolve(output);
             }).catch(function (e) {
                 reject(e);
@@ -35,8 +36,9 @@ function _build_query(dsType, outputs, rawQuery) {
     } else {
         AppSingleton.getInstance().L.info(TAG, "We have a no promise!");
         //  Process the aligned input and query it
-        var query = this.datasource.buildQuery(_.assign({ }, this.output), JSON.parse(outputs), rawQuery, this.setting);
-        this.output = _.assign({query}, {beforeBuildQuery: this.output});
+        var query = this.datasource.buildQuery(_.clone(this.output), JSON.parse(outputs), rawQuery, this.setting);
+        this.output = _.clone({query});
+        this.output.beforeBuildQuery = this.output;
         //  Process the input now since we have no promise to wait for
     }
     return this;

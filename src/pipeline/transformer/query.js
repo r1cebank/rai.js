@@ -33,9 +33,6 @@ function _query(url, table) {
                         sharedInstance.dsCache.set(url, db);
                         sharedInstance.L.info(TAG, "restoring db connection from cache");
                     }
-
-                    //  DB is connected
-                    sharedInstance.L.info(TAG, "database is connected");
                     this.datasource.db = db;
                     this.datasource.query(this.output.query, this.setting, table).then((results) => {
                         resolve(results);

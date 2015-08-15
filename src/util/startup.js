@@ -33,7 +33,7 @@ function startup() {
             //  This replace the new TTL for cache
             sharedInstance.dsCache = new Cache({stdTTL: sharedInstance.settingsKV.SETTING_CACHE_TTL,
                                                 useClones: false});
-            sharedInstance.dsCache.on( "expired", function( key, value ){
+            sharedInstance.dsCache.on("expired", function(key, value) {
                 Expire.expire(key, value);
             });
             sharedInstance.L.info(TAG, `the new cache TTL is: ${sharedInstance.settingsKV.SETTING_CACHE_TTL}sec`);

@@ -8,6 +8,7 @@
 
 import _            from 'lodash';
 import Promise      from 'bluebird';
+import AppSingleton from '../../util/appsingleton';
 
 /*!
  *  I am quite shamed of myself since most of the code is copied from resolve.js
@@ -41,7 +42,7 @@ function _align(output_map) {
             this.output[key] = result[key];
         }
     }
-    return this;   //  Resolve should be the last function in the chain
+    return this;
 }
 
 export default {align: _align};

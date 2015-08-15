@@ -22,8 +22,9 @@ function respond(req, res) {
             .align(route.pre_query_output)
             .buildQueryFor(route.data_source, route.pre_query_output, route.query)
             .query(route.data_source_url, route.table_collection)
+            .execute(route.post_query_script)
             .resolve(function () {
-                res.send(chain.output);
+                res.send(JSON.stringify({results: chain.output}));
             });
 }
 
