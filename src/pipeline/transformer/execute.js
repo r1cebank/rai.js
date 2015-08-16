@@ -33,7 +33,7 @@ function _execute(script) {
                     });
                 } else {
                     //  I have no choose to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
-                    this.promise = exec(this.output, script).then((result) => {
+                    this.promise = exec(this.output, _.clone(script)).then((result) => {
                         resolve(result);
                     }).catch((e) => {reject(e);});
                 }
@@ -52,7 +52,7 @@ function _execute(script) {
         } else {
 
             //  I have no choise to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
-            this.promise = exec(this.output, script);
+            this.promise = exec(this.output, _.clone(script));
         }
     }
     return this;
