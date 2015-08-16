@@ -29,8 +29,9 @@ function _resolve(callback) {
             })
                 .catch((e) => {
                     AppSingleton.getInstance().L.error(TAG, "We have a rejected promise!");
-                    this.error = e; //  Huston, we have a problem
-                    this.output.error = e.toString();
+                    this.error = _.clone(e); //  Huston, we have a problem
+                    console.log(this);
+                    this.output.error = _.clone(e);
                     this.output = _.clone(this.input);
                     callback();   //  Better chaining
                 });
@@ -49,7 +50,7 @@ function _resolve(callback) {
         AppSingleton.getInstance().L.info(TAG, "We have a no promise!");
         callback();
     }
-    return undefined;   //  Resolve should be the last function in the chain
+    return this;
 }
 
 export default {resolve: _resolve};

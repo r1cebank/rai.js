@@ -25,6 +25,8 @@ function respond(req, res) {
             .execute(route.post_query_script)
             .resolve(function () {
                 res.send(JSON.stringify({results: chain.output}));
+            }).catch(function (e) {
+                console.log("this is the error: ", e);
             });
 }
 
