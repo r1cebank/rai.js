@@ -30,7 +30,6 @@ function _resolve(callback) {
                 .catch((e) => {
                     AppSingleton.getInstance().L.error(TAG, "We have a rejected promise!");
                     this.error = _.clone(e); //  Huston, we have a problem
-                    console.log(this);
                     this.output.error = _.clone(e);
                     this.output = _.clone(this.input);
                     callback();   //  Better chaining

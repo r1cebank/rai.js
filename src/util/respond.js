@@ -11,6 +11,8 @@ import AppSingleton     from '../util/appsingleton';
 
 function respond(req, res) {
 
+    var TAG = "respond";    //  Log tag
+
     var sharedInstance = AppSingleton.getInstance();        //  Grab the shared instance contains all the routes
     var route = sharedInstance.path.get(req.path);          //  You shall have a instance!
     var setting = sharedInstance.appSettings[route.name];   //  Grab the app settings
@@ -26,7 +28,7 @@ function respond(req, res) {
             .resolve(function () {
                 res.send(JSON.stringify({results: chain.output}));
             }).catch(function (e) {
-                console.log("this is the error: ", e);
+                if(e) sharedInstance.L.error(TAG, e.toString());
             });
 }
 

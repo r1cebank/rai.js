@@ -24,10 +24,17 @@ function _execute(script) {
             _promise.then((results) => {
 
                 this.output = _.clone(results);    //  Merge output
+
+                //  If output is empty, resolve now
+                if(_.isEmpty(this.output)) {
+                    AppSingleton.getInstance().L.warn(TAG, "Trying to run script on empty input.");
+                    resolve(this.output);
+                }
+
                 //  Create a new sandbox for code execution
                 if(!script) {
                     // If no script is provided, exit and set output to the input
-                    this.promise = new Promise((resolve, reject) => {
+                    this.promise = new Promise((resolve) => {
                         this.output.passThrough = true;
                         resolve(_.clone(this.output));
                     });
@@ -43,15 +50,28 @@ function _execute(script) {
         });
     } else {
         AppSingleton.getInstance().L.info(TAG, "We have a no promise!");
+
+        //  If output is empty, return now
+        if(_.isEmpty(this.output)) {
+            AppSingleton.getInstance().L.warn(TAG, "Trying to run script on empty input.");
+            this.promise = new Promise((resolve) => {
+                resolve(this.output);
+            });
+            return this;
+        }
+
         //  Create a new sandbox for code execution
         if(!script) {
 
             // If no script is provided, exit and set output to the input
             this.output.passThrough = true;
             this.output = _.clone(this.output);
+            this.promise = new Promise((resolve) => {
+                resolve(this.output);
+            });
         } else {
 
-            //  I have no choise to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
+            //  I have no choose to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
             this.promise = exec(this.output, _.clone(script));
         }
     }
