@@ -5,7 +5,7 @@
 function resolver(value) {
 
     //  Using regex to match number and interval
-    var regex           = /^([a-zA-Z]+)\(([0-9])\)$/,
+    var regex           = /^([a-zA-Z]+)\(([0-9]*.[0-9]+)\)$/,
         interval        = ['day', 'hour', 'minute', 'second'],
         intervalValue   = [86400, 3600, 60, 1];
 
