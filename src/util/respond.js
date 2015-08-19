@@ -23,8 +23,8 @@ function respond(req, res) {
     var chain = new Chainable();
         chain.input(_.assign(req.query, req.body), setting)
             .execute(route.pre_query_script)
-            .align(route.pre_query_output)
-            .buildQueryFor(route.data_source, route.pre_query_output, route.query)
+            .align(route.query_input)
+            .buildQueryFor(route.data_source, route.query_input, route.query)
             .query(route.data_source_url, route.table_collection)
             .execute(route.post_query_script)
             .resolve(function () {
