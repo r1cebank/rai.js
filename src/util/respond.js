@@ -8,6 +8,7 @@
  */
 import Chainable        from '../pipeline/chainable';
 import AppSingleton     from '../util/appsingleton';
+import _                from 'lodash';
 
 function respond(req, res) {
 
@@ -17,9 +18,11 @@ function respond(req, res) {
     var route = sharedInstance.path.get(req.path);          //  You shall have a instance!
     var setting = sharedInstance.appSettings[route.name];   //  Grab the app settings
 
+    console.log(route);
+
     //  Start a new chainable instance
     var chain = new Chainable();
-        chain.input(req, setting)
+        chain.input(_.assign(req.query, req.body), setting)
             .execute(route.pre_query_script)
             .align(route.pre_query_output)
             .buildQueryFor(route.data_source, route.pre_query_output, route.query)
@@ -28,7 +31,7 @@ function respond(req, res) {
             .resolve(function () {
                 res.send(JSON.stringify({results: chain.output}));
             }).catch(function (e) {
-                if(e) sharedInstance.L.error(TAG, e.toString());
+                if(e) sharedInstance.L.error(TAG, JSON.stringify(e));
             });
 }
 

@@ -13,8 +13,8 @@ function _input(req, setting) {
 
     //  Set the request and route
     this.setting = _.clone(setting);
-    this.input = _.assign(req.query, req.body); //  Made a copy of the request
-    this.output = _.assign(req.query, req.body);
+    this.input = req; //  Made a copy of the request
+    this.output = req;
     return this;
 }
 

@@ -18,7 +18,7 @@ class Chainable {
         this.TAG = "chainable";
 
         //  Set default values
-        this.error      = { };
+        this.error      = undefined;
         this.input      = { };
         this.output     = { };
 

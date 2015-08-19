@@ -15,7 +15,7 @@ import SettingsKVLoader from '../loader/settings_kv';
 import AppsLoader       from '../loader/apps';
 import AppSettingLoader from '../loader/app_settings';
 import Routes           from '../loader/routes';
-import Expire           from './events/expire'; //  TODO: maybe need a seperate class to handle this
+import Events           from './events/events'; //  TODO: maybe need a seperate class to handle this
 
 function startup() {
 
@@ -34,7 +34,7 @@ function startup() {
             sharedInstance.dsCache = new Cache({stdTTL: sharedInstance.settingsKV.SETTING_CACHE_TTL,
                                                 useClones: false});
             sharedInstance.dsCache.on("expired", function(key, value) {
-                Expire.expire(key, value);
+                Events.expire(key, value);
             });
             sharedInstance.L.info(TAG, `The new cache TTL is: ${sharedInstance.settingsKV.SETTING_CACHE_TTL}sec`);
 

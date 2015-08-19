@@ -22,6 +22,7 @@ function _execute(script) {
         AppSingleton.getInstance().L.warn(TAG, "We have a unresolved promise!");
         this.promise = new Promise((resolve, reject) => {
             _promise.then((results) => {
+                AppSingleton.getInstance().L.info(TAG, "Promise resolved!");
 
                 this.output = _.clone(results);    //  Merge output
 
@@ -33,12 +34,11 @@ function _execute(script) {
 
                 //  Create a new sandbox for code execution
                 if(!script) {
+                    AppSingleton.getInstance().L.warn(TAG, "No script supplied");
                     // If no script is provided, exit and set output to the input
-                    this.promise = new Promise((resolve) => {
-                        this.output.passThrough = true;
-                        resolve(_.clone(this.output));
-                    });
+                    resolve(_.clone(this.output));
                 } else {
+                    AppSingleton.getInstance().L.info(TAG, "Script supplied, running sandbox.");
                     //  I have no choose to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
                     this.promise = exec(this.output, _.clone(script)).then((result) => {
                         resolve(result);
@@ -62,15 +62,14 @@ function _execute(script) {
 
         //  Create a new sandbox for code execution
         if(!script) {
-
+            AppSingleton.getInstance().L.warn(TAG, "No script supplied");
             // If no script is provided, exit and set output to the input
-            this.output.passThrough = true;
             this.output = _.clone(this.output);
             this.promise = new Promise((resolve) => {
                 resolve(this.output);
             });
         } else {
-
+            AppSingleton.getInstance().L.info(TAG, "Script supplied, running sandbox.");
             //  I have no choose to do this, i wanted to sync wait, it is a pipe anyways, no need for async.
             this.promise = exec(this.output, _.clone(script));
         }
