@@ -36,7 +36,7 @@ function startup() {
             sharedInstance.dsCache.on("expired", function(key, value) {
                 Expire.expire(key, value);
             });
-            sharedInstance.L.info(TAG, `the new cache TTL is: ${sharedInstance.settingsKV.SETTING_CACHE_TTL}sec`);
+            sharedInstance.L.info(TAG, `The new cache TTL is: ${sharedInstance.settingsKV.SETTING_CACHE_TTL}sec`);
 
             //  Now loads all the apps defined in the system.
             AppsLoader.load(result.apps[0]);
