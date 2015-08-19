@@ -3,9 +3,10 @@
  */
 
 /*!
- *  This file handles the connection between mongodb and rai
- *  connect will return a promise for the connection or a
- *  a promise wrapped cached connection
+ *  This file manages the connection between json and rai
+ *  a connection represent a http request that downloads the json
+ *  into server memory cache, still need a way to do this without downloading
+ *  the entire json
  */
 
 import Fetch            from 'node-fetch';
@@ -33,12 +34,16 @@ function _connect(url) {
     } else {
         sharedInstance.L.warn(TAG, "no connection cached, setting up new connection");
         return new Promise(function (resolve) {
+
+            //  Fetch the json defined in the database
             Fetch(url).then(function (res) {
                 resolve(res.json());
             });
         });
     }
     return new Promise(function (resolve) {
+
+        //  Fetch the json defined in the database
         Fetch(url).then(function (res) {
             resolve(res.json());
         });
