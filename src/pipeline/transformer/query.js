@@ -28,6 +28,7 @@ function _query(url, table) {
                 //  Connect the db, query and return the data
                 this.datasource.connect(url).then((db) => {
 
+
                     if(!sharedInstance.dsCache.get(url)) {
                         //  Updates the cache
                         sharedInstance.dsCache.set(url, db);

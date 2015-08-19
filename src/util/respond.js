@@ -18,7 +18,6 @@ function respond(req, res) {
     var route = sharedInstance.path.get(req.path);          //  You shall have a instance!
     var setting = sharedInstance.appSettings[route.name];   //  Grab the app settings
 
-    console.log(route);
 
     //  Start a new chainable instance
     var chain = new Chainable();
@@ -30,8 +29,7 @@ function respond(req, res) {
             .execute(route.post_query_script)
             .resolve(function () {
                 res.send(JSON.stringify({results: chain.output}));
-            }).catch(function (e) {
-                if(e) sharedInstance.L.error(TAG, JSON.stringify(e));
+                if(chain.error) AppSingleton.getInstance().L.error(TAG, JSON.stringify(chain.error));
             });
 }
 

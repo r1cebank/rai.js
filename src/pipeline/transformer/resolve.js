@@ -28,10 +28,10 @@ function _resolve(callback) {
                 callback();   //  Better chaining
             })
                 .catch((e) => {
-                    AppSingleton.getInstance().L.error(TAG, "We have a rejected promise!");
-                    this.error = _.clone(e); //  Huston, we have a problem
-                    this.output.error = _.clone(e);
+                    AppSingleton.getInstance().L.error(TAG, "We have rejected a promise!");
                     this.output = _.clone(this.input);
+                    this.error = e.toString(); //  Huston, we have a problem
+                    this.output.error = e.toString();
                     callback();   //  Better chaining
                 });
         } else if(this.promise.isFulfilled()) { //  We have a resolved promise, get the value from it and resolve that
